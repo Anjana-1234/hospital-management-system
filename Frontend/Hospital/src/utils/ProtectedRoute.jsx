@@ -20,6 +20,20 @@ const ProtectedRoute = ({ children, roles }) => {
     return <Navigate to="/login" />
   }
 
+  // Role restricted route hai — token ka role check karo
+  if (roles && roles.length > 0) {
+    let authorized = false
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      authorized = roles.includes(payload.role)
+    } catch {
+      authorized = false
+    }
+    if (!authorized) {
+      return <Navigate to="/login" />
+    }
+  }
+
   return children
 }
 

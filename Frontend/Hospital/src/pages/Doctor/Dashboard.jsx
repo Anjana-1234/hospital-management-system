@@ -1,29 +1,36 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
 import api from '../../services/api'
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
-    appointments: 0,
-    completed: 0,
-    pending: 0,
-    cancelled: 0,
+    todayAppointments: 0,
+    pendingLabResults: 0,
   })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await api.get('/all-appointment')
-        const all = res.data.data
+        const [apptRes, labRes] = await Promise.all([
+          api.get('/all-appointment'),
+          api.get('/my-lab-requests'),
+        ])
 
-        setStats({
-          appointments: all.length,
-          completed: all.filter(a => a.status === 'completed').length,
-          pending: all.filter(a => a.status === 'pending').length,
-          cancelled: all.filter(a => a.status === 'cancelled').length,
-        })
+        const appointments = apptRes.data.data || []
+        const labRequests = labRes.data.data || []
+
+        const today = new Date().toDateString()
+        const todayAppointments = appointments.filter(
+          (a) => new Date(a.appointmentDate).toDateString() === today
+        ).length
+        const pendingLabResults = labRequests.filter(
+          (l) => l.status === 'requested' || l.status === 'collected'
+        ).length
+
+        setStats({ todayAppointments, pendingLabResults })
       } catch (err) {
         console.log(err)
       } finally {
@@ -35,10 +42,8 @@ const Dashboard = () => {
   }, [])
 
   const cards = [
-    { label: 'Total Appointments', value: stats.appointments, color: 'primary', icon: 'bi-calendar-check' },
-    { label: 'Completed', value: stats.completed, color: 'success', icon: 'bi-check-circle' },
-    { label: 'Pending', value: stats.pending, color: 'warning', icon: 'bi-hourglass-split' },
-    { label: 'Cancelled', value: stats.cancelled, color: 'danger', icon: 'bi-x-circle' },
+    { label: "Today's Appointments", value: stats.todayAppointments, color: 'primary', icon: 'bi-calendar-check' },
+    { label: 'Pending Lab Results', value: stats.pendingLabResults, color: 'warning', icon: 'bi-flask' },
   ]
 
   return (
@@ -57,7 +62,7 @@ const Dashboard = () => {
           ) : (
             <div className="row g-4">
               {cards.map((card) => (
-                <div className="col-md-3" key={card.label}>
+                <div className="col-md-4" key={card.label}>
                   <div className="stat-card" style={{ borderLeft: `4px solid var(--color-${card.color})` }}>
                     <div className="stat-card-icon" style={{ color: `var(--color-${card.color})` }}>
                       <i className={`bi ${card.icon}`}></i>
@@ -69,6 +74,18 @@ const Dashboard = () => {
                   </div>
                 </div>
               ))}
+
+              <div className="col-md-4">
+                <Link to="/doctor/patient-history" className="stat-card text-decoration-none" style={{ borderLeft: '4px solid var(--color-primary)' }}>
+                  <div className="stat-card-icon" style={{ color: 'var(--color-primary)' }}>
+                    <i className="bi bi-search"></i>
+                  </div>
+                  <div>
+                    <h2 className="stat-card-value" style={{ fontSize: '1.1rem' }}>Search Patients</h2>
+                    <p className="stat-card-label">View patient history</p>
+                  </div>
+                </Link>
+              </div>
             </div>
           )}
 

@@ -25,6 +25,8 @@ const Sidebar = () => {
     { path: '/doctor/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
     { path: '/doctor/appointments', label: 'Appointments', icon: 'bi-calendar-check' },
     { path: '/doctor/prescriptions', label: 'Prescriptions', icon: 'bi-file-medical' },
+    { path: '/doctor/patient-history', label: 'Patient History', icon: 'bi-clipboard2-pulse' },
+    { path: '/doctor/lab-requests', label: 'Lab Requests', icon: 'bi-flask' },
   ]
 
   // Patient links

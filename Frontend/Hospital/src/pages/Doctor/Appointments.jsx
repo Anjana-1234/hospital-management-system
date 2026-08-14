@@ -90,16 +90,26 @@ const Appointments = () => {
                           </span>
                         </td>
                         <td>
-                          <select
-                            className="form-select form-select-sm"
-                            value={appt.status}
-                            onChange={(e) => handleStatusUpdate(appt._id, e.target.value)}
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
-                          </select>
+                          <div className="d-flex gap-2 align-items-center">
+                            <select
+                              className="form-select form-select-sm"
+                              value={appt.status}
+                              onChange={(e) => handleStatusUpdate(appt._id, e.target.value)}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="confirmed">Confirmed</option>
+                              <option value="completed">Completed</option>
+                              <option value="cancelled">Cancelled</option>
+                            </select>
+                            {appt.status !== 'completed' && appt.status !== 'cancelled' && (
+                              <button
+                                className="btn btn-success btn-sm text-nowrap"
+                                onClick={() => handleStatusUpdate(appt._id, 'completed')}
+                              >
+                                <i className="bi bi-check-circle me-1"></i>Mark Completed
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))
