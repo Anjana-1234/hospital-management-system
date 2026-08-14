@@ -1,0 +1,347 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
+:root {
+  --color-primary: #0B5F8A;
+  --color-primary-dark: #073B54;
+  --color-background: #F5F8FA;
+  --color-surface: #FFFFFF;
+  --color-success: #1E8A5E;
+  --color-warning: #C97A1A;
+  --color-danger: #C13B3B;
+  --color-text: #1E293B;
+  --color-text-muted: #64748B;
+
+  --color-border: #E2E8F0;
+  --radius: 6px;
+
+  /* ---- Bootstrap variable overrides ----
+     Bootstrap 5.3 components read many of these custom properties directly,
+     so overriding them here re-themes buttons/badges/alerts/links globally. */
+  --bs-primary: var(--color-primary);
+  --bs-primary-rgb: 11, 95, 138;
+  --bs-primary-text-emphasis: var(--color-primary-dark);
+  --bs-primary-bg-subtle: #DCEAF3;
+  --bs-primary-border-subtle: #A9CCDD;
+
+  --bs-success: var(--color-success);
+  --bs-success-rgb: 30, 138, 94;
+  --bs-success-text-emphasis: #14573C;
+  --bs-success-bg-subtle: #DCF0E7;
+  --bs-success-border-subtle: #A7D9C3;
+
+  --bs-warning: var(--color-warning);
+  --bs-warning-rgb: 201, 122, 26;
+  --bs-warning-text-emphasis: #7A4B10;
+  --bs-warning-bg-subtle: #FBEAD7;
+  --bs-warning-border-subtle: #EFC38F;
+
+  --bs-danger: var(--color-danger);
+  --bs-danger-rgb: 193, 59, 59;
+  --bs-danger-text-emphasis: #7C2424;
+  --bs-danger-bg-subtle: #F8DEDE;
+  --bs-danger-border-subtle: #E4A3A3;
+
+  --bs-secondary: var(--color-text-muted);
+  --bs-secondary-rgb: 100, 116, 139;
+  --bs-secondary-color: var(--color-text-muted);
+
+  --bs-body-color: var(--color-text);
+  --bs-body-bg: var(--color-background);
+  --bs-emphasis-color: var(--color-text);
+
+  --bs-link-color: var(--color-primary);
+  --bs-link-color-rgb: 11, 95, 138;
+  --bs-link-hover-color: var(--color-primary-dark);
+  --bs-link-hover-color-rgb: 7, 59, 84;
+
+  --bs-border-color: var(--color-border);
+  --bs-border-radius: 6px;
+  --bs-border-radius-sm: 6px;
+  --bs-border-radius-lg: 6px;
+
+  --bs-font-sans-serif: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Buttons — Bootstrap hardcodes hex values per-component, so component-scoped
+   vars are re-declared here rather than relying on the :root overrides above.
+   ========================================================================== */
+.btn {
+  border-radius: var(--radius);
+  font-weight: 500;
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--color-primary);
+  --bs-btn-border-color: var(--color-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--color-primary-dark);
+  --bs-btn-hover-border-color: var(--color-primary-dark);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--color-primary-dark);
+  --bs-btn-active-border-color: var(--color-primary-dark);
+  --bs-btn-disabled-bg: var(--color-primary);
+  --bs-btn-disabled-border-color: var(--color-primary);
+  --bs-btn-focus-shadow-rgb: 11, 95, 138;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--color-primary);
+  --bs-btn-border-color: var(--color-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--color-primary);
+  --bs-btn-hover-border-color: var(--color-primary);
+  --bs-btn-active-bg: var(--color-primary);
+  --bs-btn-active-border-color: var(--color-primary);
+  --bs-btn-disabled-color: var(--color-primary);
+  --bs-btn-disabled-border-color: var(--color-primary);
+  --bs-btn-focus-shadow-rgb: 11, 95, 138;
+}
+
+.btn-success {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--color-success);
+  --bs-btn-border-color: var(--color-success);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #176c49;
+  --bs-btn-hover-border-color: #176c49;
+  --bs-btn-active-bg: #176c49;
+  --bs-btn-active-border-color: #176c49;
+  --bs-btn-disabled-bg: var(--color-success);
+  --bs-btn-disabled-border-color: var(--color-success);
+  --bs-btn-focus-shadow-rgb: 30, 138, 94;
+}
+
+.btn-warning {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--color-warning);
+  --bs-btn-border-color: var(--color-warning);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #a3630f;
+  --bs-btn-hover-border-color: #a3630f;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #a3630f;
+  --bs-btn-active-border-color: #a3630f;
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--color-warning);
+  --bs-btn-disabled-border-color: var(--color-warning);
+  --bs-btn-focus-shadow-rgb: 201, 122, 26;
+}
+
+.btn-danger {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--color-danger);
+  --bs-btn-border-color: var(--color-danger);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #9c2f2f;
+  --bs-btn-hover-border-color: #9c2f2f;
+  --bs-btn-active-bg: #9c2f2f;
+  --bs-btn-active-border-color: #9c2f2f;
+  --bs-btn-disabled-bg: var(--color-danger);
+  --bs-btn-disabled-border-color: var(--color-danger);
+  --bs-btn-focus-shadow-rgb: 193, 59, 59;
+}
+
+.btn-secondary,
+.btn-outline-secondary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--color-text-muted);
+  --bs-btn-border-color: var(--color-text-muted);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #4b5768;
+  --bs-btn-hover-border-color: #4b5768;
+  --bs-btn-active-bg: #4b5768;
+  --bs-btn-active-border-color: #4b5768;
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--color-text-muted);
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-color: #fff;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.form-control,
+.form-select {
+  border-radius: var(--radius);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(11, 95, 138, 0.15);
+}
+
+/* ==========================================================================
+   Cards — softened, consistent shadow instead of Bootstrap's default
+   ========================================================================== */
+.card {
+  border-color: var(--color-border);
+  border-radius: var(--radius);
+}
+
+.shadow,
+.shadow-sm {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+.table thead th {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  border-color: var(--color-border);
+}
+
+.table-hover > tbody > tr:hover > * {
+  --bs-table-hover-bg: rgba(11, 95, 138, 0.05);
+}
+
+/* ==========================================================================
+   App shell — Sidebar
+   ========================================================================== */
+.app-sidebar {
+  background-color: var(--color-primary-dark);
+  width: 220px;
+  min-height: 100vh;
+  flex-shrink: 0;
+}
+
+.sidebar-heading {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius);
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.925rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.sidebar-link.active {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.sidebar-link i {
+  font-size: 1rem;
+  width: 1.1rem;
+  text-align: center;
+}
+
+/* ==========================================================================
+   App shell — Navbar
+   ========================================================================== */
+.app-navbar {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: 0.7rem 1.5rem;
+}
+
+.app-navbar .navbar-brand {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   Dashboard stat cards
+   ========================================================================== */
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.stat-card-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  background-color: rgba(11, 95, 138, 0.08);
+}
+
+.stat-card-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  color: var(--color-text);
+}
+
+.stat-card-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Auth
+   ========================================================================== */
+.auth-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}

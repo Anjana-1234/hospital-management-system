@@ -31,7 +31,7 @@ const Prescriptions = () => {
         <Sidebar />
         <div className="p-4 w-100">
 
-          <h4 className="mb-4">💊 My Prescriptions</h4>
+          <h4 className="mb-4"><i className="bi bi-file-medical me-2"></i>My Prescriptions</h4>
 
           {error && <div className="alert alert-danger">{error}</div>}
 
@@ -47,7 +47,7 @@ const Prescriptions = () => {
                 <div className="col-md-6" key={pres._id}>
                   <div className="card shadow-sm h-100">
                     <div className="card-header bg-primary text-white d-flex justify-content-between">
-                      <span>💊 Prescription #{index + 1}</span>
+                      <span><i className="bi bi-file-medical me-2"></i>Prescription #{index + 1}</span>
                       <span>{new Date(pres.createdAt).toLocaleDateString()}</span>
                     </div>
                     <div className="card-body">

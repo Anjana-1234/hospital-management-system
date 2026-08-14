@@ -47,7 +47,7 @@ const Appointments = () => {
         <Sidebar />
         <div className="p-4 w-100">
 
-          <h4 className="mb-4">📅 My Appointments</h4>
+          <h4 className="mb-4">My Appointments</h4>
 
           {error && <div className="alert alert-danger">{error}</div>}
 
@@ -58,7 +58,7 @@ const Appointments = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Patient</th>
@@ -80,7 +80,7 @@ const Appointments = () => {
                     appointments.map((appt, index) => (
                       <tr key={appt._id}>
                         <td>{index + 1}</td>
-                        <td>{appt.patientId?.userId?.name}</td>
+                        <td>{appt.patientId?.name}</td>
                         <td>{new Date(appt.appointmentDate).toLocaleDateString()}</td>
                         <td>{appt.timeSlot}</td>
                         <td>{appt.reason || '—'}</td>

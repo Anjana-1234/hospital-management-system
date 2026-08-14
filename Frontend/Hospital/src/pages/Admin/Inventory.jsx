@@ -86,7 +86,7 @@ const Inventory = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>📦 Inventory</h4>
+            <h4><i className="bi bi-capsule me-2"></i>Inventory</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -100,7 +100,8 @@ const Inventory = () => {
           {/* Low Stock Alert */}
           {items.some(isLowStock) && (
             <div className="alert alert-warning">
-              ⚠️ Kuch items ka stock kam hai — check karo!
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
+              Kuch items ka stock kam hai — check karo!
             </div>
           )}
 
@@ -161,7 +162,7 @@ const Inventory = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
@@ -202,9 +203,13 @@ const Inventory = () => {
                         <td>{item.supplier || '—'}</td>
                         <td>
                           {isLowStock(item) ? (
-                            <span className="badge bg-danger">Low Stock ⚠️</span>
+                            <span className="badge bg-danger">
+                              <i className="bi bi-exclamation-triangle me-1"></i>Low Stock
+                            </span>
                           ) : (
-                            <span className="badge bg-success">OK ✅</span>
+                            <span className="badge bg-success">
+                              <i className="bi bi-check-circle me-1"></i>In Stock
+                            </span>
                           )}
                         </td>
                         <td>
@@ -212,7 +217,7 @@ const Inventory = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => handleDelete(item._id)}
                           >
-                            Delete
+                            <i className="bi bi-trash me-1"></i>Delete
                           </button>
                         </td>
                       </tr>

@@ -35,10 +35,10 @@ const Dashboard = () => {
   }, [])
 
   const cards = [
-    { label: 'Total Appointments', value: stats.appointments, color: 'primary', icon: '📅' },
-    { label: 'Completed', value: stats.completed, color: 'success', icon: '✅' },
-    { label: 'Pending', value: stats.pending, color: 'warning', icon: '⏳' },
-    { label: 'Cancelled', value: stats.cancelled, color: 'danger', icon: '❌' },
+    { label: 'Total Appointments', value: stats.appointments, color: 'primary', icon: 'bi-calendar-check' },
+    { label: 'Completed', value: stats.completed, color: 'success', icon: 'bi-check-circle' },
+    { label: 'Pending', value: stats.pending, color: 'warning', icon: 'bi-hourglass-split' },
+    { label: 'Cancelled', value: stats.cancelled, color: 'danger', icon: 'bi-x-circle' },
   ]
 
   return (
@@ -48,7 +48,7 @@ const Dashboard = () => {
         <Sidebar />
         <div className="p-4 w-100">
 
-          <h4 className="mb-4">📊 Doctor Dashboard</h4>
+          <h4 className="mb-4">Doctor Dashboard</h4>
 
           {loading ? (
             <div className="d-flex justify-content-center mt-5">
@@ -58,11 +58,13 @@ const Dashboard = () => {
             <div className="row g-4">
               {cards.map((card) => (
                 <div className="col-md-3" key={card.label}>
-                  <div className={`card border-${card.color} shadow-sm`}>
-                    <div className="card-body text-center">
-                      <div style={{ fontSize: '2rem' }}>{card.icon}</div>
-                      <h2 className={`text-${card.color} fw-bold`}>{card.value}</h2>
-                      <p className="text-muted mb-0">{card.label}</p>
+                  <div className="stat-card" style={{ borderLeft: `4px solid var(--color-${card.color})` }}>
+                    <div className="stat-card-icon" style={{ color: `var(--color-${card.color})` }}>
+                      <i className={`bi ${card.icon}`}></i>
+                    </div>
+                    <div>
+                      <h2 className="stat-card-value">{card.value}</h2>
+                      <p className="stat-card-label">{card.label}</p>
                     </div>
                   </div>
                 </div>

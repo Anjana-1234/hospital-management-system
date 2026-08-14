@@ -51,52 +51,71 @@ import {
   deleteInventoryController
 } from "../Controller/inventoryController.js"
 
+import {
+  addDepartmentController,
+  getAllDepartmentsController,
+  getDepartmentByIdController,
+  updateDepartmentController,
+  deleteDepartmentController
+} from "../Controller/departmentController.js"
+
+import {
+  getAllUsersController,
+  updateUserController,
+  deleteUserController
+} from "../Controller/userController.js"
+
+import { getDashboardStatsController } from "../Controller/dashboardController.js"
+
 
 import { authMiddleware, roleMiddleware } from "../Middleware/auth.js";
 
 // Auth routes
-router.post("/register", UserRegistrationController);
+router.post("/register", authMiddleware, roleMiddleware(["admin"]), UserRegistrationController);
 router.post("/login", UserLoginController);
 
 // Doctor routes
 router.post("/add-doctor", authMiddleware, roleMiddleware(["admin"]), addDoctorController);
-router.get("/all-doctor", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), getAllDoctorsController);
+router.get("/all-doctor", authMiddleware, roleMiddleware(["admin", "doctor"]), getAllDoctorsController);
 router.get("/all-patient", authMiddleware, roleMiddleware(["admin"]), getAllPatientsController);
-router.get("/patient/:id", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), getPatientByIdController);
+router.get("/patient/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getPatientByIdController);
 router.get("/all-appointment", authMiddleware, roleMiddleware(["admin"]), getAllAppointmentsController)
 router.get("/all-prescription", authMiddleware, roleMiddleware(["admin"]), getAllPrescriptionsController)
 router.get("/all-bill", authMiddleware, roleMiddleware(["admin"]), getAllBillsController)
 router.get("/all-inventory", authMiddleware, roleMiddleware(["admin"]), getAllInventoryController)
+router.get("/all-department", authMiddleware, roleMiddleware(["admin"]), getAllDepartmentsController)
+router.get("/all-users", authMiddleware, roleMiddleware(["admin"]), getAllUsersController)
+router.get("/dashboard-stats", authMiddleware, roleMiddleware(["admin"]), getDashboardStatsController)
 
 // /:id SABSE LAST mein
-router.get("/:id", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), getDoctorByIdController);
+router.get("/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getDoctorByIdController);
 
 router.put("/update/:id", authMiddleware, roleMiddleware(["admin"]), updateDoctorController);
 router.delete("/delete/:id", authMiddleware, roleMiddleware(["admin"]), deleteDoctorController);
 
 // Patient routes
 router.post("/add-patient", authMiddleware, roleMiddleware(["admin"]), addPatientController);
-router.put("/update-patient/:id", authMiddleware, roleMiddleware(["admin", "patient"]), updatePatientController);
+router.put("/update-patient/:id", authMiddleware, roleMiddleware(["admin"]), updatePatientController);
 router.delete("/delete-patient/:id", authMiddleware, roleMiddleware(["admin"]), deletePatientController);
 
 
 // Appointment routes
-router.post("/book-appointment", authMiddleware, roleMiddleware(["admin", "patient"]), bookAppointmentController)
-router.get("/appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), getAppointmentByIdController)
+router.post("/book-appointment", authMiddleware, roleMiddleware(["admin"]), bookAppointmentController)
+router.get("/appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getAppointmentByIdController)
 router.put("/update-appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), updateAppointmentStatusController)
-router.put("/cancel-appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), cancelAppointmentController)
+router.put("/cancel-appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), cancelAppointmentController)
 
 
 // Prescription routes
 router.post("/add-prescription", authMiddleware, roleMiddleware(["doctor"]), addPrescriptionController)
-router.get("/prescription/:patientId", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), getPrescriptionByPatientController)
+router.get("/prescription/:patientId", authMiddleware, roleMiddleware(["admin", "doctor"]), getPrescriptionByPatientController)
 router.put("/update-prescription/:id", authMiddleware, roleMiddleware(["doctor"]), updatePrescriptionController)
 router.delete("/delete-prescription/:id", authMiddleware, roleMiddleware(["admin"]), deletePrescriptionController)
 
 
 // Bill routes
 router.post("/add-bill", authMiddleware, roleMiddleware(["admin"]), addBillController)
-router.get("/bill/:patientId", authMiddleware, roleMiddleware(["admin", "doctor", "patient"]), getBillByPatientController)
+router.get("/bill/:patientId", authMiddleware, roleMiddleware(["admin", "doctor"]), getBillByPatientController)
 router.put("/update-bill/:id", authMiddleware, roleMiddleware(["admin"]), updateBillStatusController)
 router.delete("/delete-bill/:id", authMiddleware, roleMiddleware(["admin"]), deleteBillController)
 
@@ -106,5 +125,17 @@ router.post("/add-inventory", authMiddleware, roleMiddleware(["admin"]), addInve
 router.get("/low-stock", authMiddleware, roleMiddleware(["admin"]), getLowStockController)
 router.put("/update-inventory/:id", authMiddleware, roleMiddleware(["admin"]), updateInventoryController)
 router.delete("/delete-inventory/:id", authMiddleware, roleMiddleware(["admin"]), deleteInventoryController)
+
+
+// Department routes
+router.post("/add-department", authMiddleware, roleMiddleware(["admin"]), addDepartmentController)
+router.get("/department/:id", authMiddleware, roleMiddleware(["admin"]), getDepartmentByIdController)
+router.put("/update-department/:id", authMiddleware, roleMiddleware(["admin"]), updateDepartmentController)
+router.delete("/delete-department/:id", authMiddleware, roleMiddleware(["admin"]), deleteDepartmentController)
+
+
+// User management routes
+router.put("/update-user/:id", authMiddleware, roleMiddleware(["admin"]), updateUserController)
+router.delete("/delete-user/:id", authMiddleware, roleMiddleware(["admin"]), deleteUserController)
 
 export default router;

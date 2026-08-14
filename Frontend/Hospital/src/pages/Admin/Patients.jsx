@@ -10,7 +10,7 @@ const Patients = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    name: '', email: '', password: '',
+    name: '', email: '',
     age: '', gender: 'male',
     bloodGroup: 'A+', phone: '', address: ''
   })
@@ -44,7 +44,7 @@ const Patients = () => {
       if (res.data.success) {
         setShowForm(false)
         setFormData({
-          name: '', email: '', password: '',
+          name: '', email: '',
           age: '', gender: 'male',
           bloodGroup: 'A+', phone: '', address: ''
         })
@@ -75,7 +75,7 @@ const Patients = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>🤒 Patients</h4>
+            <h4><i className="bi bi-people me-2"></i>Patients</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -99,10 +99,6 @@ const Patients = () => {
                   <div className="col-md-4">
                     <input name="email" type="email" className="form-control"
                       placeholder="Email" onChange={handleChange} required />
-                  </div>
-                  <div className="col-md-4">
-                    <input name="password" type="password" className="form-control"
-                      placeholder="Password" onChange={handleChange} required />
                   </div>
                   <div className="col-md-4">
                     <input name="age" type="number" className="form-control"
@@ -148,7 +144,7 @@ const Patients = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
@@ -171,8 +167,8 @@ const Patients = () => {
                     patients.map((patient, index) => (
                       <tr key={patient._id}>
                         <td>{index + 1}</td>
-                        <td>{patient.userId?.name}</td>
-                        <td>{patient.userId?.email}</td>
+                        <td>{patient.name}</td>
+                        <td>{patient.email}</td>
                         <td>{patient.age}</td>
                         <td className="text-capitalize">{patient.gender}</td>
                         <td>{patient.bloodGroup}</td>
@@ -182,7 +178,7 @@ const Patients = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => handleDelete(patient._id)}
                           >
-                            Delete
+                            <i className="bi bi-trash me-1"></i>Delete
                           </button>
                         </td>
                       </tr>

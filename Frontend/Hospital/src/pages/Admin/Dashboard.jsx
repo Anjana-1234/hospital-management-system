@@ -5,40 +5,26 @@ import api from '../../services/api'
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
-    patients: 0,
-    todayAppointments: 0,
-    revenue: 0,
-    pharmacyAlerts: 0,
+    totalPatients: 0,
+    todaysAppointments: 0,
+    totalRevenue: 0,
+    pendingLabRequests: 0,
+    lowStockCount: 0,
   })
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [patients, appointments, bills, lowStock] = await Promise.all([
-          api.get('/all-patient'),
-          api.get('/all-appointment'),
-          api.get('/all-bill'),
-          api.get('/low-stock'),
-        ])
-
-        const todayStr = new Date().toDateString()
-        const todayAppointments = appointments.data.data.filter(
-          (appt) => new Date(appt.appointmentDate).toDateString() === todayStr
-        ).length
-
-        const revenue = bills.data.data
-          .filter((bill) => bill.status === 'paid')
-          .reduce((sum, bill) => sum + bill.totalAmount, 0)
-
-        setStats({
-          patients: patients.data.data.length,
-          todayAppointments,
-          revenue,
-          pharmacyAlerts: lowStock.data.data.length,
-        })
+        const res = await api.get('/dashboard-stats')
+        if (res.data.success) {
+          setStats(res.data.data)
+        } else {
+          setError(res.data.message)
+        }
       } catch (err) {
-        console.log(err)
+        setError('Failed to fetch dashboard stats')
       } finally {
         setLoading(false)
       }
@@ -48,10 +34,11 @@ const Dashboard = () => {
   }, [])
 
   const cards = [
-    { label: 'Total Patients', value: stats.patients, color: 'success', icon: '🤒' },
-    { label: "Today's Appointments", value: stats.todayAppointments, color: 'warning', icon: '📅' },
-    { label: 'Revenue', value: `₹${stats.revenue.toLocaleString()}`, color: 'primary', icon: '💰' },
-    { label: 'Pharmacy Alerts', value: stats.pharmacyAlerts, color: 'danger', icon: '⚠️' },
+    { label: 'Total Patients', value: stats.totalPatients, color: 'primary', icon: 'bi-people' },
+    { label: "Today's Appointments", value: stats.todaysAppointments, color: 'primary', icon: 'bi-calendar-check' },
+    { label: 'Total Revenue', value: `₹${stats.totalRevenue.toLocaleString()}`, color: 'success', icon: 'bi-cash-stack' },
+    { label: 'Pending Lab Requests', value: stats.pendingLabRequests, color: 'primary', icon: 'bi-clipboard2-pulse' },
+    { label: 'Low Stock Items', value: stats.lowStockCount, color: 'warning', icon: 'bi-exclamation-triangle' },
   ]
 
   return (
@@ -61,7 +48,9 @@ const Dashboard = () => {
         <Sidebar />
         <div className="p-4 w-100">
 
-          <h4 className="mb-4">📊 Admin Dashboard</h4>
+          <h4 className="mb-4">Admin Dashboard</h4>
+
+          {error && <div className="alert alert-danger">{error}</div>}
 
           {loading ? (
             <div className="d-flex justify-content-center mt-5">
@@ -70,12 +59,14 @@ const Dashboard = () => {
           ) : (
             <div className="row g-4">
               {cards.map((card) => (
-                <div className="col-md-3" key={card.label}>
-                  <div className={`card border-${card.color} shadow-sm`}>
-                    <div className="card-body text-center">
-                      <div style={{ fontSize: '2rem' }}>{card.icon}</div>
-                      <h2 className={`text-${card.color} fw-bold`}>{card.value}</h2>
-                      <p className="text-muted mb-0">{card.label}</p>
+                <div className="col-md-4" key={card.label}>
+                  <div className="stat-card" style={{ borderLeft: `4px solid var(--color-${card.color})` }}>
+                    <div className="stat-card-icon" style={{ color: `var(--color-${card.color})` }}>
+                      <i className={`bi ${card.icon}`}></i>
+                    </div>
+                    <div>
+                      <h2 className="stat-card-value">{card.value}</h2>
+                      <p className="stat-card-label">{card.label}</p>
                     </div>
                   </div>
                 </div>

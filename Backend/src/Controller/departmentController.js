@@ -1,36 +1,28 @@
-import Patient from "../Module/Patient.js"
+import Department from "../Module/Department.js"
 
-export const addPatientController = async (req, res) => {
+export const addDepartmentController = async (req, res) => {
   try {
-    const { name, email, age, gender, bloodGroup, phone, address } = req.body
+    const { name, description } = req.body
 
-    const isExist = await Patient.findOne({ email })
+    const isExist = await Department.findOne({ name })
     if (isExist) {
       return res.json({
         success: false,
         code: 400,
-        message: "Email already exist",
+        message: "Department already exist",
         data: null,
         error: true,
       })
     }
 
-    const patient = new Patient({
-      name,
-      email,
-      age,
-      gender,
-      bloodGroup,
-      phone,
-      address
-    })
-    const savedPatient = await patient.save()
+    const department = new Department({ name, description })
+    const result = await department.save()
 
     return res.json({
       success: true,
       code: 201,
-      message: "Patient added successfully",
-      data: savedPatient,
+      message: "Department added successfully",
+      data: result,
       error: false,
     })
 
@@ -45,14 +37,14 @@ export const addPatientController = async (req, res) => {
   }
 }
 
-export const getAllPatientsController = async (req, res) => {
+export const getAllDepartmentsController = async (req, res) => {
   try {
-    const patients = await Patient.find()
+    const departments = await Department.find()
     return res.json({
       success: true,
       code: 200,
-      message: "Patients fetched successfully",
-      data: patients,
+      message: "Departments fetched successfully",
+      data: departments,
       error: false,
     })
   } catch (err) {
@@ -66,14 +58,14 @@ export const getAllPatientsController = async (req, res) => {
   }
 }
 
-export const getPatientByIdController = async (req, res) => {
+export const getDepartmentByIdController = async (req, res) => {
   try {
-    const patient = await Patient.findById(req.params.id)
-    if (!patient) {
+    const department = await Department.findById(req.params.id)
+    if (!department) {
       return res.json({
         success: false,
         code: 404,
-        message: "Patient not found",
+        message: "Department not found",
         data: null,
         error: true,
       })
@@ -81,8 +73,8 @@ export const getPatientByIdController = async (req, res) => {
     return res.json({
       success: true,
       code: 200,
-      message: "Patient fetched successfully",
-      data: patient,
+      message: "Department fetched successfully",
+      data: department,
       error: false,
     })
   } catch (err) {
@@ -96,19 +88,19 @@ export const getPatientByIdController = async (req, res) => {
   }
 }
 
-export const updatePatientController = async (req, res) => {
+export const updateDepartmentController = async (req, res) => {
   try {
-    const patient = await Patient.findByIdAndUpdate(
+    const department = await Department.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     )
 
-    if (!patient) {
+    if (!department) {
       return res.json({
         success: false,
         code: 404,
-        message: "Patient not found",
+        message: "Department not found",
         data: null,
         error: true,
       })
@@ -117,8 +109,8 @@ export const updatePatientController = async (req, res) => {
     return res.json({
       success: true,
       code: 200,
-      message: "Patient updated successfully",
-      data: patient,
+      message: "Department updated successfully",
+      data: department,
       error: false,
     })
   } catch (err) {
@@ -132,25 +124,24 @@ export const updatePatientController = async (req, res) => {
   }
 }
 
-export const deletePatientController = async (req, res) => {
+export const deleteDepartmentController = async (req, res) => {
   try {
-    const patient = await Patient.findById(req.params.id)
-    if (!patient) {
+    const department = await Department.findByIdAndDelete(req.params.id)
+
+    if (!department) {
       return res.json({
         success: false,
         code: 404,
-        message: "Patient not found",
+        message: "Department not found",
         data: null,
         error: true,
       })
     }
 
-    await Patient.findByIdAndDelete(req.params.id)
-
     return res.json({
       success: true,
       code: 200,
-      message: "Patient deleted successfully",
+      message: "Department deleted successfully",
       data: null,
       error: false,
     })

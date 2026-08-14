@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './utils/ProtectedRoute'
 // Lazy imports — Auth
 const Login = lazy(() => import('./pages/Auth/Login.jsx'))
-const Register = lazy(() => import('./pages/Auth/Register.jsx'))
 
 // Lazy imports — Admin
 const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard.jsx'))
@@ -12,6 +11,8 @@ const AdminPatients = lazy(() => import('./pages/Admin/Patients.jsx'))
 const AdminAppointments = lazy(() => import('./pages/Admin/Appointments.jsx'))
 const AdminBills = lazy(() => import('./pages/Admin/Bills.jsx'))
 const AdminInventory = lazy(() => import('./pages/Admin/Inventory.jsx'))
+const AdminUsers = lazy(() => import('./pages/Admin/Users.jsx'))
+const AdminDepartments = lazy(() => import('./pages/Admin/Departments.jsx'))
 
 // Lazy imports — Doctor
 const DoctorDashboard = lazy(() => import('./pages/Doctor/Dashboard.jsx'))
@@ -41,7 +42,6 @@ function App() {
 
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
 
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
@@ -50,6 +50,8 @@ function App() {
           <Route path="/admin/appointments" element={<AdminAppointments />} />
           <Route path="/admin/bills" element={<AdminBills />} />
           <Route path="/admin/inventory" element={<AdminInventory />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/departments" element={<AdminDepartments />} />
 
           {/* Doctor Routes */}
           <Route path="/doctor/dashboard" element={<DoctorDashboard />} />

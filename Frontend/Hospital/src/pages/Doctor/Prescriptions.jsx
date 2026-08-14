@@ -113,7 +113,7 @@ const Prescriptions = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>💊 Prescriptions</h4>
+            <h4>Prescriptions</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -139,7 +139,7 @@ const Prescriptions = () => {
                       <option value="">Select Appointment</option>
                       {appointments.map(appt => (
                         <option key={appt._id} value={appt._id}>
-                          {appt.patientId?.userId?.name} — {new Date(appt.appointmentDate).toLocaleDateString()}
+                          {appt.patientId?.name} — {new Date(appt.appointmentDate).toLocaleDateString()}
                         </option>
                       ))}
                     </select>
@@ -153,7 +153,7 @@ const Prescriptions = () => {
                       <option value="">Select Patient</option>
                       {patients.map(pat => (
                         <option key={pat._id} value={pat._id}>
-                          {pat.userId?.name}
+                          {pat.name}
                         </option>
                       ))}
                     </select>
@@ -194,7 +194,7 @@ const Prescriptions = () => {
                             <button type="button"
                               className="btn btn-danger btn-sm w-100"
                               onClick={() => removeMedicine(index)}>
-                              ✕
+                              <i className="bi bi-x-lg"></i>
                             </button>
                           </div>
                         )}
@@ -244,7 +244,7 @@ const Prescriptions = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Patient</th>
@@ -266,7 +266,7 @@ const Prescriptions = () => {
                     prescriptions.map((pres, index) => (
                       <tr key={pres._id}>
                         <td>{index + 1}</td>
-                        <td>{pres.patientId?.userId?.name}</td>
+                        <td>{pres.patientId?.name}</td>
                         <td>{pres.diagnosis || '—'}</td>
                         <td>
                           {pres.medicines.map((med, i) => (
@@ -286,7 +286,7 @@ const Prescriptions = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => handleDelete(pres._id)}
                           >
-                            Delete
+                            <i className="bi bi-trash me-1"></i>Delete
                           </button>
                         </td>
                       </tr>

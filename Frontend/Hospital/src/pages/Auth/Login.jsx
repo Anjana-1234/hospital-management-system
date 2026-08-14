@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import api from '../../services/api'
 
@@ -27,7 +27,6 @@ const Login = () => {
         const role = res.data.data.role
         if (role === 'admin') navigate('/admin/dashboard')
         else if (role === 'doctor') navigate('/doctor/dashboard')
-        else if (role === 'patient') navigate('/patient/dashboard')
 
       } else {
         setError(res.data.message)
@@ -41,11 +40,13 @@ const Login = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card shadow p-4" style={{ width: '400px' }}>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="auth-card shadow-sm p-4" style={{ width: '400px' }}>
 
         {/* Header */}
-        <h3 className="text-center mb-1">🏥 HMS</h3>
+        <h3 className="text-center mb-1" style={{ color: 'var(--color-primary-dark)', fontWeight: 600 }}>
+          HMS
+        </h3>
         <p className="text-center text-muted mb-4">Hospital Management System</p>
 
         {/* Error */}
@@ -92,12 +93,6 @@ const Login = () => {
             ) : 'Login'}
           </button>
         </form>
-
-        {/* Register link */}
-        <p className="text-center mt-3 mb-0">
-          Don't have an account?{' '}
-          <Link to="/register">Register</Link>
-        </p>
 
       </div>
     </div>

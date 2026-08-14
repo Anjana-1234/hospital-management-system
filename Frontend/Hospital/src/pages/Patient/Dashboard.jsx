@@ -40,10 +40,10 @@ const Dashboard = () => {
   }, [])
 
   const cards = [
-    { label: 'My Appointments', value: stats.appointments, color: 'primary', icon: '📅' },
-    { label: 'My Prescriptions', value: stats.prescriptions, color: 'success', icon: '💊' },
-    { label: 'Total Bills', value: stats.bills, color: 'warning', icon: '💰' },
-    { label: 'Pending Bills', value: stats.pendingBills, color: 'danger', icon: '⏳' },
+    { label: 'My Appointments', value: stats.appointments, color: 'primary', icon: 'bi-calendar-check' },
+    { label: 'My Prescriptions', value: stats.prescriptions, color: 'success', icon: 'bi-file-medical' },
+    { label: 'Total Bills', value: stats.bills, color: 'primary', icon: 'bi-receipt' },
+    { label: 'Pending Bills', value: stats.pendingBills, color: 'warning', icon: 'bi-hourglass-split' },
   ]
 
   return (
@@ -53,7 +53,7 @@ const Dashboard = () => {
         <Sidebar />
         <div className="p-4 w-100">
 
-          <h4 className="mb-4">📊 Patient Dashboard</h4>
+          <h4 className="mb-4">Patient Dashboard</h4>
 
           {loading ? (
             <div className="d-flex justify-content-center mt-5">
@@ -63,11 +63,13 @@ const Dashboard = () => {
             <div className="row g-4">
               {cards.map((card) => (
                 <div className="col-md-3" key={card.label}>
-                  <div className={`card border-${card.color} shadow-sm`}>
-                    <div className="card-body text-center">
-                      <div style={{ fontSize: '2rem' }}>{card.icon}</div>
-                      <h2 className={`text-${card.color} fw-bold`}>{card.value}</h2>
-                      <p className="text-muted mb-0">{card.label}</p>
+                  <div className="stat-card" style={{ borderLeft: `4px solid var(--color-${card.color})` }}>
+                    <div className="stat-card-icon" style={{ color: `var(--color-${card.color})` }}>
+                      <i className={`bi ${card.icon}`}></i>
+                    </div>
+                    <div>
+                      <h2 className="stat-card-value">{card.value}</h2>
+                      <p className="stat-card-label">{card.label}</p>
                     </div>
                   </div>
                 </div>

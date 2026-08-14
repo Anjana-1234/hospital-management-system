@@ -85,7 +85,7 @@ const Doctors = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>👨‍⚕️ Doctors</h4>
+            <h4><i className="bi bi-heart-pulse me-2"></i>Doctors</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -163,7 +163,7 @@ const Doctors = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
@@ -201,7 +201,7 @@ const Doctors = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => handleDelete(doc._id)}
                           >
-                            Delete
+                            <i className="bi bi-trash me-1"></i>Delete
                           </button>
                         </td>
                       </tr>

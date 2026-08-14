@@ -10,27 +10,29 @@ const Sidebar = () => {
 
   // Admin links
   const adminLinks = [
-    { path: '/admin/dashboard', label: '📊 Dashboard' },
-    { path: '/admin/doctors', label: '👨‍⚕️ Doctors' },
-    { path: '/admin/patients', label: '🤒 Patients' },
-    { path: '/admin/appointments', label: '📅 Appointments' },
-    { path: '/admin/bills', label: '💰 Bills' },
-    { path: '/admin/inventory', label: '📦 Inventory' },
+    { path: '/admin/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/admin/doctors', label: 'Doctors', icon: 'bi-heart-pulse' },
+    { path: '/admin/patients', label: 'Patients', icon: 'bi-people' },
+    { path: '/admin/appointments', label: 'Appointments', icon: 'bi-calendar-check' },
+    { path: '/admin/bills', label: 'Bills', icon: 'bi-receipt' },
+    { path: '/admin/inventory', label: 'Inventory', icon: 'bi-capsule' },
+    { path: '/admin/users', label: 'Users', icon: 'bi-person-gear' },
+    { path: '/admin/departments', label: 'Departments', icon: 'bi-building' },
   ]
 
   // Doctor links
   const doctorLinks = [
-    { path: '/doctor/dashboard', label: '📊 Dashboard' },
-    { path: '/doctor/appointments', label: '📅 Appointments' },
-    { path: '/doctor/prescriptions', label: '💊 Prescriptions' },
+    { path: '/doctor/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/doctor/appointments', label: 'Appointments', icon: 'bi-calendar-check' },
+    { path: '/doctor/prescriptions', label: 'Prescriptions', icon: 'bi-file-medical' },
   ]
 
   // Patient links
   const patientLinks = [
-    { path: '/patient/dashboard', label: '📊 Dashboard' },
-    { path: '/patient/appointments', label: '📅 Appointments' },
-    { path: '/patient/prescriptions', label: '💊 Prescriptions' },
-    { path: '/patient/bills', label: '💰 Bills' },
+    { path: '/patient/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/patient/appointments', label: 'Appointments', icon: 'bi-calendar-check' },
+    { path: '/patient/prescriptions', label: 'Prescriptions', icon: 'bi-file-medical' },
+    { path: '/patient/bills', label: 'Bills', icon: 'bi-receipt' },
   ]
 
   // Role ke hisaab se links
@@ -40,24 +42,18 @@ const Sidebar = () => {
     patientLinks
 
   return (
-    <div
-      className="d-flex flex-column bg-dark text-white p-3"
-      style={{ width: '220px', minHeight: '100vh' }}
-    >
-      <h6 className="text-uppercase text-muted mb-3 mt-2">Menu</h6>
+    <div className="app-sidebar d-flex flex-column p-3">
+      <h6 className="sidebar-heading text-uppercase mb-3 mt-2">Menu</h6>
       {links.map((link) => (
         <NavLink
           key={link.path}
           to={link.path}
           className={({ isActive }) =>
-            `text-decoration-none py-2 px-3 rounded mb-1 ${
-              isActive
-                ? 'bg-primary text-white'
-                : 'text-white-50'
-            }`
+            `sidebar-link mb-1 ${isActive ? 'active' : ''}`
           }
         >
-          {link.label}
+          <i className={`bi ${link.icon}`}></i>
+          <span>{link.label}</span>
         </NavLink>
       ))}
     </div>

@@ -37,7 +37,7 @@ const Bills = () => {
         <Sidebar />
         <div className="p-4 w-100">
 
-          <h4 className="mb-4">💰 My Bills</h4>
+          <h4 className="mb-4"><i className="bi bi-receipt me-2"></i>My Bills</h4>
 
           {error && <div className="alert alert-danger">{error}</div>}
 
@@ -53,7 +53,7 @@ const Bills = () => {
                 <div className="col-md-6" key={bill._id}>
                   <div className="card shadow-sm h-100">
                     <div className={`card-header bg-${statusColor[bill.status]} text-white d-flex justify-content-between`}>
-                      <span>🧾 Bill #{index + 1}</span>
+                      <span><i className="bi bi-receipt me-2"></i>Bill #{index + 1}</span>
                       <span className="badge bg-white text-dark">
                         {bill.status.toUpperCase()}
                       </span>

@@ -119,7 +119,7 @@ const Bills = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>💰 Bills</h4>
+            <h4><i className="bi bi-receipt me-2"></i>Bills</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -145,7 +145,7 @@ const Bills = () => {
                       <option value="">Select Patient</option>
                       {patients.map(pat => (
                         <option key={pat._id} value={pat._id}>
-                          {pat.userId?.name}
+                          {pat.name}
                         </option>
                       ))}
                     </select>
@@ -159,7 +159,7 @@ const Bills = () => {
                       <option value="">Select Appointment</option>
                       {appointments.map(appt => (
                         <option key={appt._id} value={appt._id}>
-                          {appt.patientId?.userId?.name} — {new Date(appt.appointmentDate).toLocaleDateString()}
+                          {appt.patientId?.name} — {new Date(appt.appointmentDate).toLocaleDateString()}
                         </option>
                       ))}
                     </select>
@@ -191,7 +191,7 @@ const Bills = () => {
                           <button type="button"
                             className="btn btn-danger btn-sm"
                             onClick={() => removeItem(index)}>
-                            ✕
+                            <i className="bi bi-x-lg"></i>
                           </button>
                         )}
                       </div>
@@ -221,7 +221,7 @@ const Bills = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Patient</th>
@@ -243,7 +243,7 @@ const Bills = () => {
                     bills.map((bill, index) => (
                       <tr key={bill._id}>
                         <td>{index + 1}</td>
-                        <td>{bill.patientId?.userId?.name}</td>
+                        <td>{bill.patientId?.name}</td>
                         <td>
                           {bill.items.map((item, i) => (
                             <div key={i}>
@@ -276,7 +276,7 @@ const Bills = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => handleDelete(bill._id)}
                           >
-                            ✕
+                            <i className="bi bi-trash"></i>
                           </button>
                         </td>
                       </tr>

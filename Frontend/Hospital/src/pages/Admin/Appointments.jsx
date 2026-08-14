@@ -90,7 +90,7 @@ const Appointments = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>📅 Appointments</h4>
+            <h4><i className="bi bi-calendar-check me-2"></i>Appointments</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -130,7 +130,7 @@ const Appointments = () => {
                       <option value="">Select Patient</option>
                       {patients.map(pat => (
                         <option key={pat._id} value={pat._id}>
-                          {pat.userId?.name}
+                          {pat.name}
                         </option>
                       ))}
                     </select>
@@ -174,7 +174,7 @@ const Appointments = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Patient</th>
@@ -197,7 +197,7 @@ const Appointments = () => {
                     appointments.map((appt, index) => (
                       <tr key={appt._id}>
                         <td>{index + 1}</td>
-                        <td>{appt.patientId?.userId?.name}</td>
+                        <td>{appt.patientId?.name}</td>
                         <td>{appt.doctorId?.userId?.name}</td>
                         <td>{new Date(appt.appointmentDate).toLocaleDateString()}</td>
                         <td>{appt.timeSlot}</td>

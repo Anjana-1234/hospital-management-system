@@ -86,7 +86,7 @@ const Appointments = () => {
 
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4>📅 My Appointments</h4>
+            <h4><i className="bi bi-calendar-check me-2"></i>My Appointments</h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
@@ -156,7 +156,7 @@ const Appointments = () => {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">
-                <thead className="table-dark">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Doctor</th>

@@ -45,6 +45,15 @@ export const UserLoginController = async (req,res)=>{
         const {email,password} = req.body;
         const data= await User.findOne({email});
         if(data){
+            if(data.isActive === false){
+                return res.json({
+                    success: false,
+                    code: 403,
+                    message: "This account has been deactivated. Contact an administrator.",
+                    data: null,
+                    error: true,
+                })
+            }
             const isExist= await bcrypt.compare(password,data.password);
             if(isExist){
                 const { password: _, ...userData } = data.toObject();
