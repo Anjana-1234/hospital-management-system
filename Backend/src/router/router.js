@@ -80,6 +80,11 @@ import {
   updateLabTestStatusController
 } from "../Controller/labTestController.js"
 
+import {
+  addPatientNoteController,
+  getPatientNotesController
+} from "../Controller/patientNoteController.js"
+
 
 import { authMiddleware, roleMiddleware } from "../Middleware/auth.js";
 
@@ -90,9 +95,9 @@ router.post("/login", UserLoginController);
 // Doctor routes
 router.post("/add-doctor", authMiddleware, roleMiddleware(["admin"]), addDoctorController);
 router.get("/all-doctor", authMiddleware, roleMiddleware(["admin", "doctor"]), getAllDoctorsController);
-router.get("/all-patient", authMiddleware, roleMiddleware(["admin", "doctor"]), getAllPatientsController);
-router.get("/patient/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getPatientByIdController);
-router.get("/all-appointment", authMiddleware, roleMiddleware(["admin", "doctor"]), getAllAppointmentsController)
+router.get("/all-patient", authMiddleware, roleMiddleware(["admin", "doctor", "nurse", "lab"]), getAllPatientsController);
+router.get("/patient/:id", authMiddleware, roleMiddleware(["admin", "doctor", "nurse", "lab"]), getPatientByIdController);
+router.get("/all-appointment", authMiddleware, roleMiddleware(["admin", "doctor", "nurse", "lab"]), getAllAppointmentsController)
 router.get("/all-prescription", authMiddleware, roleMiddleware(["admin"]), getAllPrescriptionsController)
 router.get("/all-bill", authMiddleware, roleMiddleware(["admin"]), getAllBillsController)
 router.get("/all-inventory", authMiddleware, roleMiddleware(["admin"]), getAllInventoryController)
@@ -119,7 +124,7 @@ router.delete("/delete-patient/:id", authMiddleware, roleMiddleware(["admin"]), 
 
 // Appointment routes
 router.post("/book-appointment", authMiddleware, roleMiddleware(["admin"]), bookAppointmentController)
-router.get("/appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getAppointmentByIdController)
+router.get("/appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor", "nurse", "lab"]), getAppointmentByIdController)
 router.put("/update-appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), updateAppointmentStatusController)
 router.put("/cancel-appointment/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), cancelAppointmentController)
 
@@ -159,11 +164,16 @@ router.delete("/delete-user/:id", authMiddleware, roleMiddleware(["admin"]), del
 
 // Medical Record routes
 router.post("/add-medical-record", authMiddleware, roleMiddleware(["doctor"]), addMedicalRecordController)
-router.get("/patient-history/:patientId", authMiddleware, roleMiddleware(["admin", "doctor", "nurse"]), getPatientHistoryController)
+router.get("/patient-history/:patientId", authMiddleware, roleMiddleware(["admin", "doctor", "nurse", "lab"]), getPatientHistoryController)
 
 
 // Lab Test routes
 router.post("/request-lab-test", authMiddleware, roleMiddleware(["doctor"]), requestLabTestController)
 router.put("/update-lab-test/:id", authMiddleware, roleMiddleware(["lab"]), updateLabTestStatusController)
+
+
+// Patient Note routes
+router.post("/add-patient-note", authMiddleware, roleMiddleware(["nurse"]), addPatientNoteController)
+router.get("/patient-notes/:patientId", authMiddleware, roleMiddleware(["admin", "doctor", "nurse"]), getPatientNotesController)
 
 export default router;
