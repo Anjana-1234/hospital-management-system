@@ -58,7 +58,7 @@ export const UserLoginController = async (req,res)=>{
             if(isExist){
                 const { password: _, ...userData } = data.toObject();
                  const Userdata = userData;
-                const payload= {email:data.email,role:data.role}
+                const payload= {id:data._id,email:data.email,role:data.role}
                 const token= jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"1h"}) 
                 return res.json({
                     success: true,

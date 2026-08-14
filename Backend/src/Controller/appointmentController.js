@@ -1,4 +1,5 @@
 import Appointment from "../Module/Appointment.js"
+import Doctor from "../Module/Doctor.js"
 
 export const bookAppointmentController = async (req, res) => {
   try {
@@ -46,7 +47,24 @@ export const bookAppointmentController = async (req, res) => {
 
 export const getAllAppointmentsController = async (req, res) => {
   try {
-    const appointments = await Appointment.find()
+    const filter = {}
+
+    // Doctor sirf apni appointments dekh sakta hai
+    if (req.user.role === "doctor") {
+      const doctorProfile = await Doctor.findOne({ userId: req.user.id })
+      if (!doctorProfile) {
+        return res.json({
+          success: true,
+          code: 200,
+          message: "Appointments fetched successfully",
+          data: [],
+          error: false,
+        })
+      }
+      filter.doctorId = doctorProfile._id
+    }
+
+    const appointments = await Appointment.find(filter)
       .populate("doctorId")
       .populate("patientId")
 
@@ -84,6 +102,20 @@ export const getAppointmentByIdController = async (req, res) => {
       })
     }
 
+    // Doctor sirf apni appointment dekh sakta hai
+    if (req.user.role === "doctor") {
+      const doctorProfile = await Doctor.findOne({ userId: req.user.id })
+      if (!doctorProfile || appointment.doctorId?._id.toString() !== doctorProfile._id.toString()) {
+        return res.json({
+          success: false,
+          code: 403,
+          message: "You are not authorized to view this appointment",
+          data: null,
+          error: true,
+        })
+      }
+    }
+
     return res.json({
       success: true,
       code: 200,
@@ -119,11 +151,7 @@ export const updateAppointmentStatusController = async (req, res) => {
       })
     }
 
-    const appointment = await Appointment.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true }
-    )
+    const appointment = await Appointment.findById(req.params.id)
 
     if (!appointment) {
       return res.json({
@@ -134,6 +162,23 @@ export const updateAppointmentStatusController = async (req, res) => {
         error: true,
       })
     }
+
+    // Doctor sirf apni appointment update kar sakta hai
+    if (req.user.role === "doctor") {
+      const doctorProfile = await Doctor.findOne({ userId: req.user.id })
+      if (!doctorProfile || appointment.doctorId.toString() !== doctorProfile._id.toString()) {
+        return res.json({
+          success: false,
+          code: 403,
+          message: "You are not authorized to update this appointment",
+          data: null,
+          error: true,
+        })
+      }
+    }
+
+    appointment.status = status
+    await appointment.save()
 
     return res.json({
       success: true,
@@ -165,6 +210,20 @@ export const cancelAppointmentController = async (req, res) => {
         data: null,
         error: true,
       })
+    }
+
+    // Doctor sirf apni appointment cancel kar sakta hai
+    if (req.user.role === "doctor") {
+      const doctorProfile = await Doctor.findOne({ userId: req.user.id })
+      if (!doctorProfile || appointment.doctorId.toString() !== doctorProfile._id.toString()) {
+        return res.json({
+          success: false,
+          code: 403,
+          message: "You are not authorized to cancel this appointment",
+          data: null,
+          error: true,
+        })
+      }
     }
 
     // Completed appointment cancel nahi ho sakti
