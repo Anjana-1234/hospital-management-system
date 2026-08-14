@@ -1,0 +1,34 @@
+// src/
+// ├── assets/          # Images, icons
+// ├── components/      # Reusable components
+// │   ├── Navbar.jsx
+// │   ├── Sidebar.jsx
+// │   └── ProtectedRoute.jsx
+// ├── pages/
+// │   ├── Auth/
+// │   │   ├── Login.jsx
+// │   │   └── Register.jsx
+// │   ├── Admin/
+// │   │   ├── Dashboard.jsx
+// │   │   ├── Doctors.jsx
+// │   │   ├── Patients.jsx
+// │   │   ├── Appointments.jsx
+// │   │   ├── Bills.jsx
+// │   │   └── Inventory.jsx
+// │   ├── Doctor/
+// │   │   ├── Dashboard.jsx
+// │   │   ├── Appointments.jsx
+// │   │   └── Prescriptions.jsx
+// │   └── Patient/
+// │       ├── Dashboard.jsx
+// │       ├── Appointments.jsx
+// │       ├── Prescriptions.jsx
+// │       └── Bills.jsx
+// ├── context/
+// │   └── AuthContext.jsx  # Login user ki info store karega
+// ├── services/
+// │   └── api.js           # Axios base URL setup
+// ├── utils/
+// │   └── ProtectedRoute.jsx
+// ├── App.jsx
+// └── main.jsx        
