@@ -27,6 +27,14 @@ const PatientAppointments = lazy(() => import('./pages/Patient/Appointments.jsx'
 const PatientPrescriptions = lazy(() => import('./pages/Patient/Prescriptions.jsx'))
 const PatientBills = lazy(() => import('./pages/Patient/Bills.jsx'))
 
+// Lazy imports — Nurse
+const NurseDashboard = lazy(() => import('./pages/Nurse/Dashboard.jsx'))
+const NursePatientView = lazy(() => import('./pages/Nurse/PatientView.jsx'))
+
+// Lazy imports — Lab
+const LabDashboard = lazy(() => import('./pages/Lab/Dashboard.jsx'))
+const LabTestRequests = lazy(() => import('./pages/Lab/TestRequests.jsx'))
+
 // Loading component
 const Loading = () => (
   <div className="d-flex justify-content-center align-items-center vh-100">
@@ -67,6 +75,14 @@ function App() {
           <Route path="/patient/appointments" element={<PatientAppointments />} />
           <Route path="/patient/prescriptions" element={<PatientPrescriptions />} />
           <Route path="/patient/bills" element={<PatientBills />} />
+
+          {/* Nurse Routes */}
+          <Route path="/nurse/dashboard" element={<ProtectedRoute roles={['nurse']}><NurseDashboard /></ProtectedRoute>} />
+          <Route path="/nurse/patients" element={<ProtectedRoute roles={['nurse']}><NursePatientView /></ProtectedRoute>} />
+
+          {/* Lab Routes */}
+          <Route path="/lab/dashboard" element={<ProtectedRoute roles={['lab']}><LabDashboard /></ProtectedRoute>} />
+          <Route path="/lab/test-requests" element={<ProtectedRoute roles={['lab']}><LabTestRequests /></ProtectedRoute>} />
 
           {/* Default */}
           <Route path="/" element={<Navigate to="/login" />} />

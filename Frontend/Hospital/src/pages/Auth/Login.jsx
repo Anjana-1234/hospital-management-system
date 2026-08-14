@@ -27,6 +27,8 @@ const Login = () => {
         const role = res.data.data.role
         if (role === 'admin') navigate('/admin/dashboard')
         else if (role === 'doctor') navigate('/doctor/dashboard')
+        else if (role === 'nurse') navigate('/nurse/dashboard')
+        else if (role === 'lab') navigate('/lab/dashboard')
 
       } else {
         setError(res.data.message)

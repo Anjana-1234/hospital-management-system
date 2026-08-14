@@ -37,10 +37,24 @@ const Sidebar = () => {
     { path: '/patient/bills', label: 'Bills', icon: 'bi-receipt' },
   ]
 
+  // Nurse links
+  const nurseLinks = [
+    { path: '/nurse/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/nurse/patients', label: 'Patients', icon: 'bi-clipboard-heart' },
+  ]
+
+  // Lab Staff links
+  const labLinks = [
+    { path: '/lab/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/lab/test-requests', label: 'Test Requests', icon: 'bi-flask' },
+  ]
+
   // Role ke hisaab se links
   const links =
     role === 'admin' ? adminLinks :
     role === 'doctor' ? doctorLinks :
+    role === 'nurse' ? nurseLinks :
+    role === 'lab' ? labLinks :
     patientLinks
 
   return (
