@@ -47,7 +47,20 @@ export const addPatientController = async (req, res) => {
 
 export const getAllPatientsController = async (req, res) => {
   try {
-    const patients = await Patient.find()
+    const { search } = req.query
+
+    // search query diya gaya ho toh name/email/phone pe filter karo
+    const filter = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
+            { phone: { $regex: search, $options: "i" } }
+          ]
+        }
+      : {}
+
+    const patients = await Patient.find(filter)
     return res.json({
       success: true,
       code: 200,

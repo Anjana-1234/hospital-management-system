@@ -137,11 +137,11 @@ export const getAppointmentByIdController = async (req, res) => {
 
 export const updateAppointmentStatusController = async (req, res) => {
   try {
-    const { status } = req.body
+    const { status, appointmentDate, timeSlot } = req.body
 
-    // Sirf valid status hi allow karo
+    // Status optional hai — sirf diya gaya ho toh validate karo (reschedule mein status nahi aata)
     const validStatus = ["pending", "confirmed", "completed", "cancelled"]
-    if (!validStatus.includes(status)) {
+    if (status !== undefined && !validStatus.includes(status)) {
       return res.json({
         success: false,
         code: 400,
@@ -177,7 +177,21 @@ export const updateAppointmentStatusController = async (req, res) => {
       }
     }
 
-    appointment.status = status
+    // Completed appointment reschedule nahi ho sakti
+    if (appointment.status === "completed" && (appointmentDate || timeSlot)) {
+      return res.json({
+        success: false,
+        code: 400,
+        message: "Completed appointment cannot be rescheduled",
+        data: null,
+        error: true,
+      })
+    }
+
+    if (status !== undefined) appointment.status = status
+    if (appointmentDate !== undefined) appointment.appointmentDate = appointmentDate
+    if (timeSlot !== undefined) appointment.timeSlot = timeSlot
+
     await appointment.save()
 
     return res.json({

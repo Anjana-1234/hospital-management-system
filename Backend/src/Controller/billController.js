@@ -34,6 +34,51 @@ export const addBillController = async (req, res) => {
   }
 }
 
+export const createBasicInvoiceController = async (req, res) => {
+  try {
+    const { patientId, appointmentId, consultationFee } = req.body
+
+    if (!patientId || consultationFee === undefined) {
+      return res.json({
+        success: false,
+        code: 400,
+        message: "patientId and consultationFee are required",
+        data: null,
+        error: true,
+      })
+    }
+
+    const bill = new Bill({
+      patientId,
+      appointmentId,
+      items: [{ description: "Consultation Fee", amount: consultationFee }],
+      totalAmount: consultationFee,
+      consultationFee,
+      labFee: 0,
+      pharmacyFee: 0,
+      paymentStatus: "unpaid"
+    })
+    const result = await bill.save()
+
+    return res.json({
+      success: true,
+      code: 201,
+      message: "Invoice created successfully",
+      data: result,
+      error: false,
+    })
+
+  } catch (err) {
+    res.json({
+      success: false,
+      code: 500,
+      message: "Internal Server Error",
+      data: err.message,
+      error: true,
+    })
+  }
+}
+
 export const getAllBillsController = async (req, res) => {
   try {
     const bills = await Bill.find()

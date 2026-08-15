@@ -174,6 +174,27 @@ export const getAllDoctorsController = async (req, res) => {
   }
 }
 
+export const getDoctorsAvailabilityController = async (req, res) => {
+  try {
+    const doctors = await Doctor.find().populate("userId", "-password")
+    return res.json({
+      success: true,
+      code: 200,
+      message: "Doctors availability fetched successfully",
+      data: doctors,
+      error: false,
+    })
+  } catch (err) {
+    res.json({
+      success: false,
+      code: 500,
+      message: "Internal Server Error",
+      data: err.message,
+      error: true,
+    })
+  }
+}
+
 export const getDoctorByIdController = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id).populate("userId", "-password")

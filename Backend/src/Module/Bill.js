@@ -27,6 +27,25 @@ const billSchema = new mongoose.Schema({
   },
   paidAt: {
     type: Date
+  },
+  // Basic invoice fields — filled in by receptionist at booking time, lab/pharmacy
+  // fees get added later by those roles as charges occur
+  consultationFee: {
+    type: Number,
+    default: 0
+  },
+  labFee: {
+    type: Number,
+    default: 0
+  },
+  pharmacyFee: {
+    type: Number,
+    default: 0
+  },
+  paymentStatus: {
+    type: String,
+    enum: ["unpaid", "paid", "cancelled"],
+    default: "unpaid"
   }
 }, { timestamps: true })
 
