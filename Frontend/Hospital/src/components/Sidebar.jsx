@@ -49,12 +49,21 @@ const Sidebar = () => {
     { path: '/lab/test-requests', label: 'Test Requests', icon: 'bi-flask' },
   ]
 
+  // Receptionist links
+  const receptionistLinks = [
+    { path: '/receptionist/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/receptionist/patients', label: 'Patients', icon: 'bi-person-plus' },
+    { path: '/receptionist/appointments', label: 'Appointments', icon: 'bi-calendar-plus' },
+    { path: '/receptionist/billing', label: 'Billing', icon: 'bi-receipt' },
+  ]
+
   // Role ke hisaab se links
   const links =
     role === 'admin' ? adminLinks :
     role === 'doctor' ? doctorLinks :
     role === 'nurse' ? nurseLinks :
     role === 'lab' ? labLinks :
+    role === 'receptionist' ? receptionistLinks :
     patientLinks
 
   return (
