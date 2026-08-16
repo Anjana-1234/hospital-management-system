@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Page refresh hone par localStorage se token lo
+  // On page refresh, load the token from localStorage
   useEffect(() => {
     const savedToken = localStorage.getItem('token')
     if (savedToken) {
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false)
   }, [])
 
-  // Login — sirf token save karo
+  // Login — just save the token
   const login = (tokenData) => {
     setToken(tokenData)
     localStorage.setItem('token', tokenData)

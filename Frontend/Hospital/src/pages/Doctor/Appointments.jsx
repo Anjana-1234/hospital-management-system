@@ -23,7 +23,7 @@ const Appointments = () => {
     fetchAppointments()
   }, [])
 
-  // Status update karo
+  // Update status
   const handleStatusUpdate = async (id, status) => {
     try {
       await api.put(`/update-appointment/${id}`, { status })

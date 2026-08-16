@@ -104,7 +104,7 @@ export const addDoctorController = async (req, res) => {
      const { name, email, password, specialization, qualifications, 
             experience, consultationFee, availableDays, availableTime } = req.body
 
-    // Pehle check karo — email already exist toh nahi karta
+    // First check that the email doesn't already exist
     const isExist = await User.findOne({ email })
     if (isExist) {
       return res.json({
@@ -274,10 +274,10 @@ export const deleteDoctorController = async (req, res) => {
       })
     }
 
-    // Doctor profile delete karo
+    // Delete the doctor profile
     await Doctor.findByIdAndDelete(req.params.id)
 
-    // User bhi delete karo
+    // Also delete the user
     await User.findByIdAndDelete(doctor.userId)
 
     return res.json({

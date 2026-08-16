@@ -16,7 +16,7 @@ const Users = () => {
   })
   const [showForm, setShowForm] = useState(false)
 
-  // Saare users fetch karo
+  // Fetch all users
   const fetchUsers = async () => {
     try {
       const res = await api.get('/all-users')
@@ -36,7 +36,7 @@ const Users = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // User add karo — protected /register endpoint, admin token auto-attached
+  // Add user — protected /register endpoint, admin token auto-attached
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -53,7 +53,7 @@ const Users = () => {
     }
   }
 
-  // Role change karo
+  // Change role
   const handleRoleChange = async (id, role) => {
     try {
       await api.put(`/update-user/${id}`, { role })
@@ -73,7 +73,7 @@ const Users = () => {
     }
   }
 
-  // User delete karo
+  // Delete user
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return
     try {

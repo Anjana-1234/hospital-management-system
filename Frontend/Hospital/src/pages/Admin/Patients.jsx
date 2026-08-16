@@ -16,7 +16,7 @@ const Patients = () => {
   })
   const [showForm, setShowForm] = useState(false)
 
-  // Saare patients fetch karo
+  // Fetch all patients
   const fetchPatients = async () => {
     try {
       const res = await api.get('/all-patient')
@@ -36,7 +36,7 @@ const Patients = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // Patient add karo
+  // Add patient
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -55,7 +55,7 @@ const Patients = () => {
     }
   }
 
-  // Patient delete karo
+  // Delete patient
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return
     try {

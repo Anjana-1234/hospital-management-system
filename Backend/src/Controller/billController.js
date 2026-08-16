@@ -4,7 +4,7 @@ export const addBillController = async (req, res) => {
   try {
     const { patientId, appointmentId, items } = req.body
 
-    // Total automatically calculate karo
+    // Automatically calculate the total
     const totalAmount = items.reduce((sum, item) => sum + item.amount, 0)
 
     const bill = new Bill({
@@ -154,7 +154,7 @@ export const updateBillStatusController = async (req, res) => {
 
     const updateData = { status }
 
-    // Agar paid kiya toh paidAt date bhi save karo
+    // If marked as paid, also save the paidAt date
     if (status === "paid") {
       updateData.paidAt = new Date()
     }

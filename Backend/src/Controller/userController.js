@@ -25,7 +25,7 @@ export const updateUserController = async (req, res) => {
   try {
     const { role, isActive } = req.body
 
-    // Sirf role aur isActive hi update karne dena — password/email yahan se change nahi
+    // Only allow updating role and isActive — password/email cannot be changed here
     const updateData = {}
     if (role !== undefined) updateData.role = role
     if (isActive !== undefined) updateData.isActive = isActive

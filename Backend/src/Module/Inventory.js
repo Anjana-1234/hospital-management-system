@@ -33,7 +33,7 @@ const inventorySchema = new mongoose.Schema({
   },
   lowStockAlert: {
     type: Number,
-    default: 10 // Agar quantity is se kam ho toh alert
+    default: 10 // Alert when quantity drops to or below this
   }
 }, { timestamps: true })
 

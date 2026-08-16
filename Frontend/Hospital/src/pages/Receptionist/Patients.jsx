@@ -20,7 +20,7 @@ const Patients = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
-  // Saare patients fetch karo
+  // Fetch all patients
   const fetchPatients = async () => {
     try {
       const res = await api.get('/all-patient')
@@ -46,7 +46,7 @@ const Patients = () => {
     setShowForm(false)
   }
 
-  // Patient add ya update karo
+  // Add or update patient
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -65,7 +65,7 @@ const Patients = () => {
     }
   }
 
-  // Edit ke liye form prefill karo
+  // Prefill form for editing
   const handleEditClick = (patient) => {
     setFormData({
       name: patient.name || '',

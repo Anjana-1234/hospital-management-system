@@ -13,7 +13,7 @@ const Departments = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
-  // Saare departments fetch karo
+  // Fetch all departments
   const fetchDepartments = async () => {
     try {
       const res = await api.get('/all-department')
@@ -39,7 +39,7 @@ const Departments = () => {
     setShowForm(false)
   }
 
-  // Add ya Update karo
+  // Add or update
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -64,7 +64,7 @@ const Departments = () => {
     setShowForm(true)
   }
 
-  // Delete karo
+  // Delete department
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return
     try {

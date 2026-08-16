@@ -100,6 +100,14 @@ import {
   getRevenueReportController
 } from "../Controller/accountantController.js"
 
+import {
+  getPatientReportController,
+  getAppointmentReportController,
+  getPharmacyReportController,
+  getLabReportController,
+  getStaffReportController
+} from "../Controller/reportsController.js"
+
 
 import { authMiddleware, roleMiddleware } from "../Middleware/auth.js";
 
@@ -130,7 +138,7 @@ router.get("/low-stock-alerts", authMiddleware, roleMiddleware(["pharmacist", "a
 router.get("/all-invoices", authMiddleware, roleMiddleware(["accountant", "admin"]), getAllInvoicesController)
 router.get("/revenue-report", authMiddleware, roleMiddleware(["accountant", "admin"]), getRevenueReportController)
 
-// /:id SABSE LAST mein
+// /:id must stay last
 router.get("/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getDoctorByIdController);
 
 router.put("/update/:id", authMiddleware, roleMiddleware(["admin"]), updateDoctorController);
@@ -205,5 +213,13 @@ router.put("/dispense-prescription/:id", authMiddleware, roleMiddleware(["pharma
 // Accountant routes
 router.put("/finalize-invoice/:id", authMiddleware, roleMiddleware(["accountant"]), finalizeInvoiceController)
 router.put("/record-payment/:id", authMiddleware, roleMiddleware(["accountant"]), recordPaymentController)
+
+
+// Reports routes
+router.get("/reports/patients", authMiddleware, roleMiddleware(["admin"]), getPatientReportController)
+router.get("/reports/appointments", authMiddleware, roleMiddleware(["admin"]), getAppointmentReportController)
+router.get("/reports/pharmacy", authMiddleware, roleMiddleware(["admin"]), getPharmacyReportController)
+router.get("/reports/lab", authMiddleware, roleMiddleware(["admin"]), getLabReportController)
+router.get("/reports/staff", authMiddleware, roleMiddleware(["admin"]), getStaffReportController)
 
 export default router;

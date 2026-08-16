@@ -23,7 +23,7 @@ const Login = () => {
       if (res.data.success) {
         login(res.data.token)
 
-        // Role ke hisaab se redirect karo
+        // Redirect based on role
         const role = res.data.data.role
         if (role === 'admin') navigate('/admin/dashboard')
         else if (role === 'doctor') navigate('/doctor/dashboard')

@@ -36,7 +36,7 @@ const Dashboard = () => {
   const cards = [
     { label: 'Total Patients', value: stats.totalPatients, color: 'primary', icon: 'bi-people' },
     { label: "Today's Appointments", value: stats.todaysAppointments, color: 'primary', icon: 'bi-calendar-check' },
-    { label: 'Total Revenue', value: `₹${stats.totalRevenue.toLocaleString()}`, color: 'success', icon: 'bi-cash-stack' },
+    { label: 'Total Revenue', value: `Rs. ${stats.totalRevenue.toLocaleString()}`, color: 'success', icon: 'bi-cash-stack' },
     { label: 'Pending Lab Requests', value: stats.pendingLabRequests, color: 'primary', icon: 'bi-clipboard2-pulse' },
     { label: 'Low Stock Items', value: stats.lowStockCount, color: 'warning', icon: 'bi-exclamation-triangle' },
   ]

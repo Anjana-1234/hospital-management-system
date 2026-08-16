@@ -29,7 +29,7 @@ const appointmentSchema = new mongoose.Schema({
     trim: true
   },
   notes: {
-    type: String // Doctor ke notes appointment ke baad
+    type: String // Doctor's notes after the appointment
   }
 }, { timestamps: true })
 

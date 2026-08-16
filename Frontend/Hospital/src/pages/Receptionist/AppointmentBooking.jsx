@@ -116,7 +116,7 @@ const AppointmentBooking = () => {
     cancelled: "danger",
   };
 
-  // Sirf aaj aur aage ki appointments dikhao, sabse jaldi wali pehle
+  // Show only today's and future appointments, earliest first
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
   const upcoming = appointments

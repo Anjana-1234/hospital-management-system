@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 const Sidebar = () => {
   const { token } = useAuth()
 
-  // Token se role nikalo
+  // Extract role from token
   const payload = token ? JSON.parse(atob(token.split('.')[1])) : null
   const role = payload?.role
 
@@ -18,6 +18,7 @@ const Sidebar = () => {
     { path: '/admin/inventory', label: 'Inventory', icon: 'bi-capsule' },
     { path: '/admin/users', label: 'Users', icon: 'bi-person-gear' },
     { path: '/admin/departments', label: 'Departments', icon: 'bi-building' },
+    { path: '/admin/reports', label: 'Reports', icon: 'bi-file-earmark-bar-graph' },
   ]
 
   // Doctor links
@@ -71,7 +72,7 @@ const Sidebar = () => {
     { path: '/accountant/revenue-report', label: 'Revenue Report', icon: 'bi-graph-up' },
   ]
 
-  // Role ke hisaab se links
+  // Links based on role
   const links =
     role === 'admin' ? adminLinks :
     role === 'doctor' ? doctorLinks :

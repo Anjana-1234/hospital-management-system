@@ -11,7 +11,7 @@ const Bills = () => {
  const fetchBills = async () => {
     try {
       const res = await api.get('/all-bill')
-      console.log(res.data) // ← yeh add karo temporarily
+      console.log(res.data) // ← added temporarily
       setBills(res.data.data || [])
     } catch (err) {
       setError('Failed to fetch bills')
@@ -72,7 +72,7 @@ const Bills = () => {
                           {bill.items.map((item, i) => (
                             <tr key={i}>
                               <td>{item.description}</td>
-                              <td>₹{item.amount}</td>
+                              <td>Rs. {item.amount}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -82,7 +82,7 @@ const Bills = () => {
                       <div className="d-flex justify-content-between align-items-center mt-2">
                         <strong>Total Amount:</strong>
                         <span className="fs-5 fw-bold text-primary">
-                          ₹{bill.totalAmount}
+                          Rs. {bill.totalAmount}
                         </span>
                       </div>
 

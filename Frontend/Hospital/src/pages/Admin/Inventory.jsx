@@ -40,7 +40,7 @@ const Inventory = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Item add karo
+  // Add item
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -63,7 +63,7 @@ const Inventory = () => {
     }
   };
 
-  // Item delete karo
+  // Delete item
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure?")) return;
     try {

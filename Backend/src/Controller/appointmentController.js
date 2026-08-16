@@ -5,7 +5,7 @@ export const bookAppointmentController = async (req, res) => {
   try {
     const { doctorId, patientId, appointmentDate, timeSlot, reason } = req.body
 
-    // Check karo — same doctor, same date, same slot already booked toh nahi
+    // Check that the same doctor isn't already booked for this date/slot
     const isExist = await Appointment.findOne({ doctorId, appointmentDate, timeSlot })
     if (isExist) {
       return res.json({
@@ -49,7 +49,7 @@ export const getAllAppointmentsController = async (req, res) => {
   try {
     const filter = {}
 
-    // Doctor sirf apni appointments dekh sakta hai
+    // Doctor can only view their own appointments
     if (req.user.role === "doctor") {
       const doctorProfile = await Doctor.findOne({ userId: req.user.id })
       if (!doctorProfile) {
@@ -102,7 +102,7 @@ export const getAppointmentByIdController = async (req, res) => {
       })
     }
 
-    // Doctor sirf apni appointment dekh sakta hai
+    // Doctor can only view their own appointment
     if (req.user.role === "doctor") {
       const doctorProfile = await Doctor.findOne({ userId: req.user.id })
       if (!doctorProfile || appointment.doctorId?._id.toString() !== doctorProfile._id.toString()) {
@@ -139,7 +139,7 @@ export const updateAppointmentStatusController = async (req, res) => {
   try {
     const { status, appointmentDate, timeSlot } = req.body
 
-    // Status optional hai — sirf diya gaya ho toh validate karo (reschedule mein status nahi aata)
+    // Status is optional — only validate if provided (reschedule doesn't include status)
     const validStatus = ["pending", "confirmed", "completed", "cancelled"]
     if (status !== undefined && !validStatus.includes(status)) {
       return res.json({
@@ -163,7 +163,7 @@ export const updateAppointmentStatusController = async (req, res) => {
       })
     }
 
-    // Doctor sirf apni appointment update kar sakta hai
+    // Doctor can only update their own appointment
     if (req.user.role === "doctor") {
       const doctorProfile = await Doctor.findOne({ userId: req.user.id })
       if (!doctorProfile || appointment.doctorId.toString() !== doctorProfile._id.toString()) {
@@ -177,7 +177,7 @@ export const updateAppointmentStatusController = async (req, res) => {
       }
     }
 
-    // Completed appointment reschedule nahi ho sakti
+    // A completed appointment cannot be rescheduled
     if (appointment.status === "completed" && (appointmentDate || timeSlot)) {
       return res.json({
         success: false,
@@ -226,7 +226,7 @@ export const cancelAppointmentController = async (req, res) => {
       })
     }
 
-    // Doctor sirf apni appointment cancel kar sakta hai
+    // Doctor can only cancel their own appointment
     if (req.user.role === "doctor") {
       const doctorProfile = await Doctor.findOne({ userId: req.user.id })
       if (!doctorProfile || appointment.doctorId.toString() !== doctorProfile._id.toString()) {
@@ -240,7 +240,7 @@ export const cancelAppointmentController = async (req, res) => {
       }
     }
 
-    // Completed appointment cancel nahi ho sakti
+    // A completed appointment cannot be cancelled
     if (appointment.status === "completed") {
       return res.json({
         success: false,

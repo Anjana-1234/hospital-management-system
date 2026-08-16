@@ -60,7 +60,7 @@ export const getAllInventoryController = async (req, res) => {
 
 export const getLowStockController = async (req, res) => {
   try {
-    // Jinki quantity lowStockAlert se kam hai
+    // Items whose quantity is at or below lowStockAlert
     const items = await Inventory.find({
       $expr: { $lte: ["$quantity", "$lowStockAlert"] }
     })

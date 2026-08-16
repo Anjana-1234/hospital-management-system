@@ -18,7 +18,7 @@ const Doctors = () => {
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-  // Saare doctors fetch karo
+  // Fetch all doctors
   const fetchDoctors = async () => {
     try {
       const res = await api.get('/all-doctor')
@@ -46,7 +46,7 @@ const Doctors = () => {
     setFormData({ ...formData, availableDays: updated })
   }
 
-  // Doctor add karo
+  // Add doctor
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -65,7 +65,7 @@ const Doctors = () => {
     }
   }
 
-  // Doctor delete karo
+  // Delete doctor
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return
     try {
@@ -190,7 +190,7 @@ const Doctors = () => {
                         <td>{doc.userId?.email}</td>
                         <td>{doc.specialization}</td>
                         <td>{doc.experience} yrs</td>
-                        <td>₹{doc.consultationFee}</td>
+                        <td>Rs. {doc.consultationFee}</td>
                         <td>
                           <span className={`badge ${doc.isAvailable ? 'bg-success' : 'bg-danger'}`}>
                             {doc.isAvailable ? 'Yes' : 'No'}

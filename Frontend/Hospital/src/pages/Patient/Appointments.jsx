@@ -22,8 +22,8 @@ const Appointments = () => {
         api.get('/all-appointment'),
         api.get('/all-doctor'),
       ])
-        setAppointments(apptRes.data.data || [])  // ← || [] add karo
-      setDoctors(docRes.data.data || [])          // ← || [] add karo
+        setAppointments(apptRes.data.data || [])  // ← guard against undefined
+      setDoctors(docRes.data.data || [])          // ← guard against undefined
     } catch (err) {
       setError('Failed to fetch data')
     } finally {
@@ -39,7 +39,7 @@ const Appointments = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // Appointment book karo
+  // Book appointment
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -59,7 +59,7 @@ const Appointments = () => {
     }
   }
 
-  // Cancel karo
+  // Cancel appointment
   const handleCancel = async (id) => {
     if (!window.confirm('Cancel this appointment?')) return
     try {
@@ -112,7 +112,7 @@ const Appointments = () => {
                       <option value="">Select Doctor</option>
                       {doctors.map(doc => (
                         <option key={doc._id} value={doc._id}>
-                          {doc.userId?.name} — {doc.specialization} — ₹{doc.consultationFee}
+                          {doc.userId?.name} — {doc.specialization} — Rs. {doc.consultationFee}
                         </option>
                       ))}
                     </select>

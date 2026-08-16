@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 const ProtectedRoute = ({ children, roles }) => {
   const { token, loading } = useAuth()
 
-  // Token check ho raha hai — wait karo
+  // Token check in progress — wait
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -15,12 +15,12 @@ const ProtectedRoute = ({ children, roles }) => {
     )
   }
 
-  // Token nahi hai — login pe bhejo
+  // No token — redirect to login
   if (!token) {
     return <Navigate to="/login" />
   }
 
-  // Role restricted route hai — token ka role check karo
+  // Role-restricted route — check the token's role
   if (roles && roles.length > 0) {
     let authorized = false
     try {

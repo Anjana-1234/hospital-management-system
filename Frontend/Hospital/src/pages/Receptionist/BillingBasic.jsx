@@ -65,7 +65,7 @@ const BillingBasic = () => {
     cancelled: 'danger',
   }
 
-  // Sabse recent invoices upar
+  // Most recent invoices first
   const recentBills = [...bills]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 10)
@@ -148,10 +148,10 @@ const BillingBasic = () => {
                       <tr key={bill._id}>
                         <td>{index + 1}</td>
                         <td>{bill.patientId?.name}</td>
-                        <td>₹{bill.consultationFee ?? bill.totalAmount}</td>
-                        <td>₹{bill.labFee ?? 0}</td>
-                        <td>₹{bill.pharmacyFee ?? 0}</td>
-                        <td>₹{bill.totalAmount}</td>
+                        <td>Rs. {bill.consultationFee ?? bill.totalAmount}</td>
+                        <td>Rs. {bill.labFee ?? 0}</td>
+                        <td>Rs. {bill.pharmacyFee ?? 0}</td>
+                        <td>Rs. {bill.totalAmount}</td>
                         <td>
                           <span className={`badge bg-${paymentStatusColor[bill.paymentStatus] || 'warning'}`}>
                             {bill.paymentStatus || 'unpaid'}

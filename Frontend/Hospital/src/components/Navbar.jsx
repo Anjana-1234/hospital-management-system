@@ -5,7 +5,7 @@ const Navbar = () => {
   const { token, logout } = useAuth()
   const navigate = useNavigate()
 
-  // Token se identity nikalo (JWT payload has email + role only)
+  // Extract identity from token (JWT payload has email + role only)
   const payload = token ? JSON.parse(atob(token.split('.')[1])) : null
 
   const handleLogout = () => {

@@ -44,14 +44,14 @@ const Bills = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Item change karo
+  // Update item
   const handleItemChange = (index, e) => {
     const updated = [...formData.items];
     updated[index][e.target.name] = e.target.value;
     setFormData({ ...formData, items: updated });
   };
 
-  // Item add karo
+  // Add item
   const addItem = () => {
     setFormData({
       ...formData,
@@ -59,13 +59,13 @@ const Bills = () => {
     });
   };
 
-  // Item remove karo
+  // Remove item
   const removeItem = (index) => {
     const updated = formData.items.filter((_, i) => i !== index);
     setFormData({ ...formData, items: updated });
   };
 
-  // Bill add karo
+  // Add bill
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -86,7 +86,7 @@ const Bills = () => {
     }
   };
 
-  // Status update karo
+  // Update status
   const handleStatusUpdate = async (id, status) => {
     try {
       await api.put(`/update-bill/${id}`, { status });
@@ -96,7 +96,7 @@ const Bills = () => {
     }
   };
 
-  // Delete karo
+  // Delete bill
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure?")) return;
     try {
@@ -262,11 +262,11 @@ const Bills = () => {
                         <td>
                           {bill.items.map((item, i) => (
                             <div key={i}>
-                              {item.description} — Rs.{item.amount}
+                              {item.description} — Rs. {item.amount}
                             </div>
                           ))}
                         </td>
-                        <td>Rs.{bill.totalAmount}</td>
+                        <td>Rs. {bill.totalAmount}</td>
                         <td>
                           <span
                             className={`badge bg-${statusColor[bill.status]}`}

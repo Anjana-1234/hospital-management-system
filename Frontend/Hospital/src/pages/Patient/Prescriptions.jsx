@@ -11,7 +11,7 @@ const Prescriptions = () => {
   const fetchPrescriptions = async () => {
     try {
       const res = await api.get('/all-prescription')
-        console.log(res.data) // ← pehle check karo
+        console.log(res.data) // ← check first
       setPrescriptions(res.data.data || [])
     } catch (err) {
       setError('Failed to fetch prescriptions')

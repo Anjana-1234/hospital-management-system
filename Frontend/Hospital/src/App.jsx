@@ -13,6 +13,7 @@ const AdminBills = lazy(() => import('./pages/Admin/Bills.jsx'))
 const AdminInventory = lazy(() => import('./pages/Admin/Inventory.jsx'))
 const AdminUsers = lazy(() => import('./pages/Admin/Users.jsx'))
 const AdminDepartments = lazy(() => import('./pages/Admin/Departments.jsx'))
+const AdminReports = lazy(() => import('./pages/Admin/Reports.jsx'))
 
 // Lazy imports — Doctor
 const DoctorDashboard = lazy(() => import('./pages/Doctor/Dashboard.jsx'))
@@ -78,6 +79,7 @@ function App() {
           <Route path="/admin/inventory" element={<AdminInventory />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/departments" element={<AdminDepartments />} />
+          <Route path="/admin/reports" element={<ProtectedRoute roles={['admin']}><AdminReports /></ProtectedRoute>} />
 
           {/* Doctor Routes */}
           <Route path="/doctor/dashboard" element={<DoctorDashboard />} />

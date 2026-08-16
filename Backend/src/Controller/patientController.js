@@ -49,7 +49,7 @@ export const getAllPatientsController = async (req, res) => {
   try {
     const { search } = req.query
 
-    // search query diya gaya ho toh name/email/phone pe filter karo
+    // If a search query is provided, filter by name/email/phone
     const filter = search
       ? {
           $or: [

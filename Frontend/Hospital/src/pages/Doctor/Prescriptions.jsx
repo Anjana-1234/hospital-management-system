@@ -47,14 +47,14 @@ const Prescriptions = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // Medicine change karo
+  // Update medicine field
   const handleMedicineChange = (index, e) => {
     const updated = [...formData.medicines]
     updated[index][e.target.name] = e.target.value
     setFormData({ ...formData, medicines: updated })
   }
 
-  // Medicine add karo
+  // Add medicine
   const addMedicine = () => {
     setFormData({
       ...formData,
@@ -62,13 +62,13 @@ const Prescriptions = () => {
     })
   }
 
-  // Medicine remove karo
+  // Remove medicine
   const removeMedicine = (index) => {
     const updated = formData.medicines.filter((_, i) => i !== index)
     setFormData({ ...formData, medicines: updated })
   }
 
-  // Prescription add karo
+  // Add prescription
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -93,7 +93,7 @@ const Prescriptions = () => {
     }
   }
 
-  // Delete karo
+  // Delete prescription
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return
     try {

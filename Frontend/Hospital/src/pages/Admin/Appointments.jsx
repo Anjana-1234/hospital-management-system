@@ -43,7 +43,7 @@ const Appointments = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // Appointment book karo
+  // Book appointment
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -63,7 +63,7 @@ const Appointments = () => {
     }
   }
 
-  // Status update karo
+  // Update status
   const handleStatusUpdate = async (id, status) => {
     try {
       await api.put(`/update-appointment/${id}`, { status })
