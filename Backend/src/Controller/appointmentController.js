@@ -1,8 +1,11 @@
 import Appointment from "../Module/Appointment.js"
 import Doctor from "../Module/Doctor.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const bookAppointmentController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["doctorId", "patientId", "appointmentDate", "timeSlot"])) return;
+
     const { doctorId, patientId, appointmentDate, timeSlot, reason } = req.body
 
     // Check that the same doctor isn't already booked for this date/slot

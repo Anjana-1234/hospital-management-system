@@ -2,9 +2,12 @@ import User from "../Module/User.js";
 import Doctor from "../Module/Doctor.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { requireFields } from "../utils/validateFields.js";
 
 export const UserRegistrationController = async (req, res) => {
     try {
+        if (requireFields(req, res, ["name", "email", "password", "role"])) return;
+
         const { name, email, password, role } = req.body;
         const isExist = await User.findOne({ email });
         if (isExist) {
@@ -42,6 +45,8 @@ export const UserRegistrationController = async (req, res) => {
 }
 export const UserLoginController = async (req,res)=>{
     try{
+        if (requireFields(req, res, ["email", "password"])) return;
+
         const {email,password} = req.body;
         const data= await User.findOne({email});
         if(data){
@@ -101,7 +106,9 @@ export const UserLoginController = async (req,res)=>{
 
 export const addDoctorController = async (req, res) => {
   try {
-     const { name, email, password, specialization, qualifications, 
+     if (requireFields(req, res, ["name", "email", "password", "specialization", "consultationFee"])) return;
+
+     const { name, email, password, specialization, qualifications,
             experience, consultationFee, availableDays, availableTime } = req.body
 
     // First check that the email doesn't already exist

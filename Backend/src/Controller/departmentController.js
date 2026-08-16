@@ -1,7 +1,10 @@
 import Department from "../Module/Department.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const addDepartmentController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["name"])) return;
+
     const { name, description } = req.body
 
     const isExist = await Department.findOne({ name })

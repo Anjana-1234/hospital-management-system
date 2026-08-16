@@ -1,7 +1,10 @@
 import PatientNote from "../Module/PatientNote.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const addPatientNoteController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["patientId", "note"])) return;
+
     const { patientId, note } = req.body
 
     const patientNote = new PatientNote({

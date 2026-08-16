@@ -2,6 +2,7 @@ import Bill from "../Module/Bill.js"
 import LabTest from "../Module/LabTest.js"
 import Prescription from "../Module/Prescription.js"
 import Inventory from "../Module/Inventory.js"
+import { escapeRegex } from "../utils/escapeRegex.js"
 
 export const getAllInvoicesController = async (req, res) => {
   try {
@@ -63,7 +64,7 @@ export const finalizeInvoiceController = async (req, res) => {
     let newPharmacyFee = 0
     for (const prescription of prescriptions) {
       for (const med of prescription.medicines) {
-        const item = await Inventory.findOne({ name: med.name })
+        const item = await Inventory.findOne({ name: new RegExp(`^${escapeRegex(med.name.trim())}$`, "i") })
         const price = item?.unitPrice || 0
         newPharmacyFee += price * (med.quantity || 1)
       }

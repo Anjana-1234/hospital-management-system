@@ -1,7 +1,10 @@
 import MedicalRecord from "../Module/MedicalRecord.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const addMedicalRecordController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["patientId"])) return;
+
     const { patientId, diagnosis, prescriptionNotes, treatmentNotes } = req.body
 
     const record = new MedicalRecord({

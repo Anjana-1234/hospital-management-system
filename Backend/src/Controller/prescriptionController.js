@@ -1,12 +1,48 @@
 import Prescription from "../Module/Prescription.js"
+import Doctor from "../Module/Doctor.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const addPrescriptionController = async (req, res) => {
   try {
-    const { appointmentId, doctorId, patientId, medicines, diagnosis, advice, followUpDate } = req.body
+    if (requireFields(req, res, ["appointmentId", "patientId"])) return;
+
+    const { appointmentId, patientId, medicines, diagnosis, advice, followUpDate } = req.body
+
+    // Derive the Doctor profile from the logged-in account rather than trusting the client
+    const doctorProfile = await Doctor.findOne({ userId: req.user.id })
+    if (!doctorProfile) {
+      return res.json({
+        success: false,
+        code: 404,
+        message: "No doctor profile found for this account",
+        data: null,
+        error: true,
+      })
+    }
+
+    if (!Array.isArray(medicines) || medicines.length === 0) {
+      return res.json({
+        success: false,
+        code: 400,
+        message: "At least one medicine is required",
+        data: null,
+        error: true,
+      })
+    }
+    const unnamedIndex = medicines.findIndex((m) => !m.name)
+    if (unnamedIndex !== -1) {
+      return res.json({
+        success: false,
+        code: 400,
+        message: `Medicine #${unnamedIndex + 1} is missing a name`,
+        data: null,
+        error: true,
+      })
+    }
 
     const prescription = new Prescription({
       appointmentId,
-      doctorId,
+      doctorId: doctorProfile._id,
       patientId,
       medicines,
       diagnosis,

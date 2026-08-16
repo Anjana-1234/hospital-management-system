@@ -1,7 +1,10 @@
 import LabTest from "../Module/LabTest.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const requestLabTestController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["patientId", "testType"])) return;
+
     const { patientId, testType } = req.body
 
     const labTest = new LabTest({

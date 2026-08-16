@@ -1,5 +1,6 @@
 import Prescription from "../Module/Prescription.js"
 import Inventory from "../Module/Inventory.js"
+import { escapeRegex } from "../utils/escapeRegex.js"
 
 export const getPendingPrescriptionsController = async (req, res) => {
   try {
@@ -53,7 +54,7 @@ export const dispensePrescriptionController = async (req, res) => {
     // Check stock availability for every medicine before deducting anything
     const inventoryItems = []
     for (const med of prescription.medicines) {
-      const item = await Inventory.findOne({ name: med.name })
+      const item = await Inventory.findOne({ name: new RegExp(`^${escapeRegex(med.name.trim())}$`, "i") })
       const requiredQty = med.quantity || 1
 
       if (!item || item.quantity < requiredQty) {

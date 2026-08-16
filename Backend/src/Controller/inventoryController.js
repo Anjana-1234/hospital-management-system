@@ -1,7 +1,10 @@
 import Inventory from "../Module/Inventory.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const addInventoryController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["name", "category", "quantity", "unit"])) return;
+
     const { name, category, quantity, unit, unitPrice, expiryDate, supplier, lowStockAlert } = req.body
 
     const item = new Inventory({

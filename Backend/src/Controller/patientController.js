@@ -1,7 +1,10 @@
 import Patient from "../Module/Patient.js"
+import { requireFields } from "../utils/validateFields.js"
 
 export const addPatientController = async (req, res) => {
   try {
+    if (requireFields(req, res, ["name", "email", "age", "gender", "bloodGroup", "phone"])) return;
+
     const { name, email, age, gender, bloodGroup, phone, address } = req.body
 
     const isExist = await Patient.findOne({ email })
