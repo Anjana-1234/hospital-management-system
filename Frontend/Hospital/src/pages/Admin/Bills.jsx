@@ -1,114 +1,117 @@
-import { useState, useEffect } from 'react'
-import Navbar from '../../components/Navbar'
-import Sidebar from '../../components/Sidebar'
-import api from '../../services/api'
+import { useState, useEffect } from "react";
+import Navbar from "../../components/Navbar";
+import Sidebar from "../../components/Sidebar";
+import api from "../../services/api";
 
 const Bills = () => {
-  const [bills, setBills] = useState([])
-  const [patients, setPatients] = useState([])
-  const [appointments, setAppointments] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [bills, setBills] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   // Form state
   const [formData, setFormData] = useState({
-    patientId: '', appointmentId: '', items: [{ description: '', amount: '' }]
-  })
-  const [showForm, setShowForm] = useState(false)
+    patientId: "",
+    appointmentId: "",
+    items: [{ description: "", amount: "" }],
+  });
+  const [showForm, setShowForm] = useState(false);
 
   // Fetch all data
   const fetchAll = async () => {
     try {
       const [billRes, patRes, apptRes] = await Promise.all([
-        api.get('/all-bill'),
-        api.get('/all-patient'),
-        api.get('/all-appointment'),
-      ])
-      setBills(billRes.data.data)
-      setPatients(patRes.data.data)
-      setAppointments(apptRes.data.data)
+        api.get("/all-bill"),
+        api.get("/all-patient"),
+        api.get("/all-appointment"),
+      ]);
+      setBills(billRes.data.data);
+      setPatients(patRes.data.data);
+      setAppointments(apptRes.data.data);
     } catch (err) {
-      setError('Failed to fetch data')
+      setError("Failed to fetch data");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchAll()
-  }, [])
+    fetchAll();
+  }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   // Item change karo
   const handleItemChange = (index, e) => {
-    const updated = [...formData.items]
-    updated[index][e.target.name] = e.target.value
-    setFormData({ ...formData, items: updated })
-  }
+    const updated = [...formData.items];
+    updated[index][e.target.name] = e.target.value;
+    setFormData({ ...formData, items: updated });
+  };
 
   // Item add karo
   const addItem = () => {
     setFormData({
       ...formData,
-      items: [...formData.items, { description: '', amount: '' }]
-    })
-  }
+      items: [...formData.items, { description: "", amount: "" }],
+    });
+  };
 
   // Item remove karo
   const removeItem = (index) => {
-    const updated = formData.items.filter((_, i) => i !== index)
-    setFormData({ ...formData, items: updated })
-  }
+    const updated = formData.items.filter((_, i) => i !== index);
+    setFormData({ ...formData, items: updated });
+  };
 
   // Bill add karo
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await api.post('/add-bill', formData)
+      const res = await api.post("/add-bill", formData);
       if (res.data.success) {
-        setShowForm(false)
+        setShowForm(false);
         setFormData({
-          patientId: '', appointmentId: '',
-          items: [{ description: '', amount: '' }]
-        })
-        fetchAll()
+          patientId: "",
+          appointmentId: "",
+          items: [{ description: "", amount: "" }],
+        });
+        fetchAll();
       } else {
-        setError(res.data.message)
+        setError(res.data.message);
       }
     } catch (err) {
-      setError('Failed to add bill')
+      setError("Failed to add bill");
     }
-  }
+  };
 
   // Status update karo
   const handleStatusUpdate = async (id, status) => {
     try {
-      await api.put(`/update-bill/${id}`, { status })
-      fetchAll()
+      await api.put(`/update-bill/${id}`, { status });
+      fetchAll();
     } catch (err) {
-      setError('Failed to update status')
+      setError("Failed to update status");
     }
-  }
+  };
 
   // Delete karo
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure?')) return
+    if (!window.confirm("Are you sure?")) return;
     try {
-      await api.delete(`/delete-bill/${id}`)
-      fetchAll()
+      await api.delete(`/delete-bill/${id}`);
+      fetchAll();
     } catch (err) {
-      setError('Failed to delete bill')
+      setError("Failed to delete bill");
     }
-  }
+  };
 
   const statusColor = {
-    pending: 'warning',
-    paid: 'success',
-    cancelled: 'danger',
-  }
+    pending: "warning",
+    paid: "success",
+    cancelled: "danger",
+  };
 
   return (
     <>
@@ -116,15 +119,16 @@ const Bills = () => {
       <div className="d-flex">
         <Sidebar />
         <div className="p-4 w-100">
-
           {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h4><i className="bi bi-receipt me-2"></i>Bills</h4>
+            <h4>
+              <i className="bi bi-receipt me-2"></i>Bills
+            </h4>
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowForm(!showForm)}
             >
-              {showForm ? 'Cancel' : '+ Add Bill'}
+              {showForm ? "Cancel" : "+ Add Bill"}
             </button>
           </div>
 
@@ -136,14 +140,17 @@ const Bills = () => {
               <h5 className="mb-3">Add New Bill</h5>
               <form onSubmit={handleSubmit}>
                 <div className="row g-3">
-
                   {/* Patient select */}
                   <div className="col-md-6">
                     <label className="form-label">Patient</label>
-                    <select name="patientId" className="form-select"
-                      onChange={handleChange} required>
+                    <select
+                      name="patientId"
+                      className="form-select"
+                      onChange={handleChange}
+                      required
+                    >
                       <option value="">Select Patient</option>
-                      {patients.map(pat => (
+                      {patients.map((pat) => (
                         <option key={pat._id} value={pat._id}>
                           {pat.name}
                         </option>
@@ -154,12 +161,16 @@ const Bills = () => {
                   {/* Appointment select */}
                   <div className="col-md-6">
                     <label className="form-label">Appointment</label>
-                    <select name="appointmentId" className="form-select"
-                      onChange={handleChange}>
+                    <select
+                      name="appointmentId"
+                      className="form-select"
+                      onChange={handleChange}
+                    >
                       <option value="">Select Appointment</option>
-                      {appointments.map(appt => (
+                      {appointments.map((appt) => (
                         <option key={appt._id} value={appt._id}>
-                          {appt.patientId?.name} — {new Date(appt.appointmentDate).toLocaleDateString()}
+                          {appt.patientId?.name} —{" "}
+                          {new Date(appt.appointmentDate).toLocaleDateString()}
                         </option>
                       ))}
                     </select>
@@ -188,17 +199,21 @@ const Bills = () => {
                           required
                         />
                         {formData.items.length > 1 && (
-                          <button type="button"
+                          <button
+                            type="button"
                             className="btn btn-danger btn-sm"
-                            onClick={() => removeItem(index)}>
+                            onClick={() => removeItem(index)}
+                          >
                             <i className="bi bi-x-lg"></i>
                           </button>
                         )}
                       </div>
                     ))}
-                    <button type="button"
+                    <button
+                      type="button"
                       className="btn btn-outline-secondary btn-sm"
-                      onClick={addItem}>
+                      onClick={addItem}
+                    >
                       + Add Item
                     </button>
                   </div>
@@ -247,26 +262,30 @@ const Bills = () => {
                         <td>
                           {bill.items.map((item, i) => (
                             <div key={i}>
-                              {item.description} — ₹{item.amount}
+                              {item.description} — Rs.{item.amount}
                             </div>
                           ))}
                         </td>
-                        <td>₹{bill.totalAmount}</td>
+                        <td>Rs.{bill.totalAmount}</td>
                         <td>
-                          <span className={`badge bg-${statusColor[bill.status]}`}>
+                          <span
+                            className={`badge bg-${statusColor[bill.status]}`}
+                          >
                             {bill.status}
                           </span>
                         </td>
                         <td>
                           {bill.paidAt
                             ? new Date(bill.paidAt).toLocaleDateString()
-                            : '—'}
+                            : "—"}
                         </td>
                         <td className="d-flex gap-1">
                           <select
                             className="form-select form-select-sm"
                             value={bill.status}
-                            onChange={(e) => handleStatusUpdate(bill._id, e.target.value)}
+                            onChange={(e) =>
+                              handleStatusUpdate(bill._id, e.target.value)
+                            }
                           >
                             <option value="pending">Pending</option>
                             <option value="paid">Paid</option>
@@ -286,11 +305,10 @@ const Bills = () => {
               </table>
             </div>
           )}
-
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Bills
+export default Bills;

@@ -64,6 +64,13 @@ const Sidebar = () => {
     { path: '/pharmacist/prescriptions', label: 'Prescriptions', icon: 'bi-prescription2' },
   ]
 
+  // Accountant links
+  const accountantLinks = [
+    { path: '/accountant/dashboard', label: 'Dashboard', icon: 'bi-speedometer2' },
+    { path: '/accountant/invoices', label: 'Invoices', icon: 'bi-receipt-cutoff' },
+    { path: '/accountant/revenue-report', label: 'Revenue Report', icon: 'bi-graph-up' },
+  ]
+
   // Role ke hisaab se links
   const links =
     role === 'admin' ? adminLinks :
@@ -72,6 +79,7 @@ const Sidebar = () => {
     role === 'lab' ? labLinks :
     role === 'receptionist' ? receptionistLinks :
     role === 'pharmacist' ? pharmacistLinks :
+    role === 'accountant' ? accountantLinks :
     patientLinks
 
   return (

@@ -46,6 +46,11 @@ const PharmacistDashboard = lazy(() => import('./pages/Pharmacist/Dashboard.jsx'
 const PharmacistInventory = lazy(() => import('./pages/Pharmacist/Inventory.jsx'))
 const PharmacistPrescriptions = lazy(() => import('./pages/Pharmacist/Prescriptions.jsx'))
 
+// Lazy imports — Accountant
+const AccountantDashboard = lazy(() => import('./pages/Accountant/Dashboard.jsx'))
+const AccountantInvoices = lazy(() => import('./pages/Accountant/Invoices.jsx'))
+const AccountantRevenueReport = lazy(() => import('./pages/Accountant/RevenueReport.jsx'))
+
 // Loading component
 const Loading = () => (
   <div className="d-flex justify-content-center align-items-center vh-100">
@@ -105,6 +110,11 @@ function App() {
           <Route path="/pharmacist/dashboard" element={<ProtectedRoute roles={['pharmacist']}><PharmacistDashboard /></ProtectedRoute>} />
           <Route path="/pharmacist/inventory" element={<ProtectedRoute roles={['pharmacist']}><PharmacistInventory /></ProtectedRoute>} />
           <Route path="/pharmacist/prescriptions" element={<ProtectedRoute roles={['pharmacist']}><PharmacistPrescriptions /></ProtectedRoute>} />
+
+          {/* Accountant Routes */}
+          <Route path="/accountant/dashboard" element={<ProtectedRoute roles={['accountant']}><AccountantDashboard /></ProtectedRoute>} />
+          <Route path="/accountant/invoices" element={<ProtectedRoute roles={['accountant']}><AccountantInvoices /></ProtectedRoute>} />
+          <Route path="/accountant/revenue-report" element={<ProtectedRoute roles={['accountant']}><AccountantRevenueReport /></ProtectedRoute>} />
 
           {/* Default */}
           <Route path="/" element={<Navigate to="/login" />} />

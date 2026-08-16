@@ -31,6 +31,7 @@ const Login = () => {
         else if (role === 'lab') navigate('/lab/dashboard')
         else if (role === 'receptionist') navigate('/receptionist/dashboard')
         else if (role === 'pharmacist') navigate('/pharmacist/dashboard')
+        else if (role === 'accountant') navigate('/accountant/dashboard')
 
       } else {
         setError(res.data.message)
