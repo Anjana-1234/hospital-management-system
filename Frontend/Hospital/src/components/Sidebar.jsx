@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useSidebar } from '../context/SidebarContext'
 
 const Sidebar = () => {
   const { token } = useAuth()
+  const { isOpen, closeSidebar } = useSidebar()
 
   // Extract role from token
   const payload = token ? JSON.parse(atob(token.split('.')[1])) : null
@@ -84,21 +86,25 @@ const Sidebar = () => {
     patientLinks
 
   return (
-    <div className="app-sidebar d-flex flex-column p-3">
-      <h6 className="sidebar-heading text-uppercase mb-3 mt-2">Menu</h6>
-      {links.map((link) => (
-        <NavLink
-          key={link.path}
-          to={link.path}
-          className={({ isActive }) =>
-            `sidebar-link mb-1 ${isActive ? 'active' : ''}`
-          }
-        >
-          <i className={`bi ${link.icon}`}></i>
-          <span>{link.label}</span>
-        </NavLink>
-      ))}
-    </div>
+    <>
+      {isOpen && <div className="sidebar-backdrop d-md-none" onClick={closeSidebar}></div>}
+      <div className={`app-sidebar d-flex flex-column p-3 ${isOpen ? 'open' : ''}`}>
+        <h6 className="sidebar-heading text-uppercase mb-3 mt-2">Menu</h6>
+        {links.map((link) => (
+          <NavLink
+            key={link.path}
+            to={link.path}
+            onClick={closeSidebar}
+            className={({ isActive }) =>
+              `sidebar-link mb-1 ${isActive ? 'active' : ''}`
+            }
+          >
+            <i className={`bi ${link.icon}`}></i>
+            <span>{link.label}</span>
+          </NavLink>
+        ))}
+      </div>
+    </>
   )
 }
 
