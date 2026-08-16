@@ -24,6 +24,14 @@ const labTestSchema = new mongoose.Schema({
   result: {
     type: String
   },
+  fee: {
+    type: Number,
+    default: 500 // flat lab test fee, used for invoice billing
+  },
+  billed: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: Date,
     default: Date.now

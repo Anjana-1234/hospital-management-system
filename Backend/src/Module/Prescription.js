@@ -39,6 +39,10 @@ const prescriptionSchema = new mongoose.Schema({
     type: String,
     enum: ["pending", "dispensed"],
     default: "pending"
+  },
+  billed: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true })
 
