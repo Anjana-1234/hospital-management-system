@@ -87,6 +87,12 @@ import {
   getPatientNotesController
 } from "../Controller/patientNoteController.js"
 
+import {
+  getPendingPrescriptionsController,
+  dispensePrescriptionController,
+  getLowStockController as getPharmacyLowStockController
+} from "../Controller/pharmacyController.js"
+
 
 import { authMiddleware, roleMiddleware } from "../Middleware/auth.js";
 
@@ -102,7 +108,7 @@ router.get("/patient/:id", authMiddleware, roleMiddleware(["admin", "doctor", "n
 router.get("/all-appointment", authMiddleware, roleMiddleware(["admin", "doctor", "nurse", "lab", "receptionist"]), getAllAppointmentsController)
 router.get("/all-prescription", authMiddleware, roleMiddleware(["admin"]), getAllPrescriptionsController)
 router.get("/all-bill", authMiddleware, roleMiddleware(["admin", "receptionist"]), getAllBillsController)
-router.get("/all-inventory", authMiddleware, roleMiddleware(["admin"]), getAllInventoryController)
+router.get("/all-inventory", authMiddleware, roleMiddleware(["admin", "pharmacist"]), getAllInventoryController)
 router.get("/all-department", authMiddleware, roleMiddleware(["admin"]), getAllDepartmentsController)
 router.get("/all-users", authMiddleware, roleMiddleware(["admin"]), getAllUsersController)
 router.get("/dashboard-stats", authMiddleware, roleMiddleware(["admin"]), getDashboardStatsController)
@@ -112,6 +118,8 @@ router.get("/my-medical-records", authMiddleware, roleMiddleware(["doctor"]), ge
 router.get("/my-lab-requests", authMiddleware, roleMiddleware(["doctor"]), getMyRequestsController)
 router.get("/all-lab-tests", authMiddleware, roleMiddleware(["admin", "lab"]), getAllLabTestsController)
 router.get("/doctors-availability", authMiddleware, roleMiddleware(["admin", "receptionist"]), getDoctorsAvailabilityController)
+router.get("/pending-prescriptions", authMiddleware, roleMiddleware(["pharmacist"]), getPendingPrescriptionsController)
+router.get("/low-stock-alerts", authMiddleware, roleMiddleware(["pharmacist", "admin"]), getPharmacyLowStockController)
 
 // /:id SABSE LAST mein
 router.get("/:id", authMiddleware, roleMiddleware(["admin", "doctor"]), getDoctorByIdController);
@@ -148,10 +156,10 @@ router.delete("/delete-bill/:id", authMiddleware, roleMiddleware(["admin"]), del
 
 
 // Inventory routes
-router.post("/add-inventory", authMiddleware, roleMiddleware(["admin"]), addInventoryController)
+router.post("/add-inventory", authMiddleware, roleMiddleware(["admin", "pharmacist"]), addInventoryController)
 router.get("/low-stock", authMiddleware, roleMiddleware(["admin"]), getLowStockController)
-router.put("/update-inventory/:id", authMiddleware, roleMiddleware(["admin"]), updateInventoryController)
-router.delete("/delete-inventory/:id", authMiddleware, roleMiddleware(["admin"]), deleteInventoryController)
+router.put("/update-inventory/:id", authMiddleware, roleMiddleware(["admin", "pharmacist"]), updateInventoryController)
+router.delete("/delete-inventory/:id", authMiddleware, roleMiddleware(["admin", "pharmacist"]), deleteInventoryController)
 
 
 // Department routes
@@ -179,5 +187,9 @@ router.put("/update-lab-test/:id", authMiddleware, roleMiddleware(["lab"]), upda
 // Patient Note routes
 router.post("/add-patient-note", authMiddleware, roleMiddleware(["nurse"]), addPatientNoteController)
 router.get("/patient-notes/:patientId", authMiddleware, roleMiddleware(["admin", "doctor", "nurse"]), getPatientNotesController)
+
+
+// Pharmacy routes
+router.put("/dispense-prescription/:id", authMiddleware, roleMiddleware(["pharmacist"]), dispensePrescriptionController)
 
 export default router;

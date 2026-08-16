@@ -2,13 +2,14 @@ import Inventory from "../Module/Inventory.js"
 
 export const addInventoryController = async (req, res) => {
   try {
-    const { name, category, quantity, unit, expiryDate, supplier, lowStockAlert } = req.body
+    const { name, category, quantity, unit, unitPrice, expiryDate, supplier, lowStockAlert } = req.body
 
     const item = new Inventory({
       name,
       category,
       quantity,
       unit,
+      unitPrice,
       expiryDate,
       supplier,
       lowStockAlert

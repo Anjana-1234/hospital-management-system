@@ -21,7 +21,8 @@ const prescriptionSchema = new mongoose.Schema({
       name:      { type: String, required: true },
       dosage:    { type: String }, // e.g. "500mg"
       frequency: { type: String }, // e.g. "Twice a day"
-      duration:  { type: String }  // e.g. "7 days"
+      duration:  { type: String }, // e.g. "7 days"
+      quantity:  { type: Number, default: 1 } // units to dispense from inventory
     }
   ],
   diagnosis: {
@@ -33,6 +34,11 @@ const prescriptionSchema = new mongoose.Schema({
   },
   followUpDate: {
     type: Date
+  },
+  status: {
+    type: String,
+    enum: ["pending", "dispensed"],
+    default: "pending"
   }
 }, { timestamps: true })
 

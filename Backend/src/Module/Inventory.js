@@ -20,6 +20,10 @@ const inventorySchema = new mongoose.Schema({
     type: String,
     required: true // e.g. "tablets", "bottles", "units"
   },
+  unitPrice: {
+    type: Number,
+    default: 0
+  },
   expiryDate: {
     type: Date
   },
