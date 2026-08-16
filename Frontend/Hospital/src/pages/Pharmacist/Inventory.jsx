@@ -19,9 +19,12 @@ const Inventory = () => {
     lowStockAlert: 10
   })
 
+  const [submitting, setSubmitting] = useState(false)
+
   // Inline edit state
   const [editId, setEditId] = useState(null)
   const [editData, setEditData] = useState({ quantity: '', unitPrice: '' })
+  const [savingEdit, setSavingEdit] = useState(false)
 
   const fetchInventory = async () => {
     try {
@@ -44,6 +47,7 @@ const Inventory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/add-inventory', formData)
       if (res.data.success) {
@@ -60,6 +64,8 @@ const Inventory = () => {
       }
     } catch (err) {
       setError('Failed to add medicine')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -74,6 +80,7 @@ const Inventory = () => {
   }
 
   const saveEdit = async (id) => {
+    setSavingEdit(true)
     try {
       const res = await api.put(`/update-inventory/${id}`, {
         quantity: Number(editData.quantity),
@@ -87,6 +94,8 @@ const Inventory = () => {
       }
     } catch (err) {
       setError('Failed to update item')
+    } finally {
+      setSavingEdit(false)
     }
   }
 
@@ -176,8 +185,8 @@ const Inventory = () => {
                       placeholder="Supplier Name" value={formData.supplier} onChange={handleChange} />
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save Medicine
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : 'Save Medicine'}
                     </button>
                   </div>
                 </div>
@@ -277,10 +286,10 @@ const Inventory = () => {
                           <td>
                             {editing ? (
                               <div className="d-flex gap-1">
-                                <button className="btn btn-success btn-sm" onClick={() => saveEdit(item._id)}>
-                                  Save
+                                <button className="btn btn-success btn-sm" disabled={savingEdit} onClick={() => saveEdit(item._id)}>
+                                  {savingEdit ? 'Saving...' : 'Save'}
                                 </button>
-                                <button className="btn btn-outline-secondary btn-sm" onClick={cancelEdit}>
+                                <button className="btn btn-outline-secondary btn-sm" disabled={savingEdit} onClick={cancelEdit}>
                                   Cancel
                                 </button>
                               </div>

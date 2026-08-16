@@ -16,6 +16,7 @@ const Appointments = () => {
     appointmentDate: '', timeSlot: '', reason: ''
   })
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   // Fetch all data
   const fetchAll = async () => {
@@ -46,6 +47,7 @@ const Appointments = () => {
   // Book appointment
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/book-appointment', formData)
       if (res.data.success) {
@@ -60,6 +62,8 @@ const Appointments = () => {
       }
     } catch (err) {
       setError('Failed to book appointment')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -157,8 +161,8 @@ const Appointments = () => {
                   </div>
 
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Book Appointment
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Booking...' : 'Book Appointment'}
                     </button>
                   </div>
                 </div>

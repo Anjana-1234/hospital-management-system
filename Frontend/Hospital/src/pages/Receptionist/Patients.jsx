@@ -19,6 +19,7 @@ const Patients = () => {
   const [formData, setFormData] = useState(emptyForm)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
   // Fetch all patients
   const fetchPatients = async () => {
@@ -49,6 +50,7 @@ const Patients = () => {
   // Add or update patient
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = editingId
         ? await api.put(`/update-patient/${editingId}`, formData)
@@ -62,6 +64,8 @@ const Patients = () => {
       }
     } catch (err) {
       setError(editingId ? 'Failed to update patient' : 'Failed to add patient')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -147,8 +151,8 @@ const Patients = () => {
                       placeholder="Address" value={formData.address} onChange={handleChange} />
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      {editingId ? 'Update Patient' : 'Save Patient'}
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : (editingId ? 'Update Patient' : 'Save Patient')}
                     </button>
                   </div>
                 </div>

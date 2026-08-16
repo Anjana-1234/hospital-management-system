@@ -14,6 +14,7 @@ const BillingBasic = () => {
   const [success, setSuccess] = useState('')
 
   const [formData, setFormData] = useState(emptyForm)
+  const [submitting, setSubmitting] = useState(false)
 
   const fetchAll = async () => {
     try {
@@ -42,6 +43,7 @@ const BillingBasic = () => {
       setError('Please select a patient')
       return
     }
+    setSubmitting(true)
     try {
       const res = await api.post('/create-basic-invoice', {
         patientId: formData.patientId,
@@ -56,6 +58,8 @@ const BillingBasic = () => {
       }
     } catch (err) {
       setError('Failed to create invoice')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -108,8 +112,8 @@ const BillingBasic = () => {
                   />
                 </div>
                 <div className="col-md-2 d-flex align-items-end">
-                  <button type="submit" className="btn btn-success w-100">
-                    Create
+                  <button type="submit" className="btn btn-success w-100" disabled={submitting}>
+                    {submitting ? 'Creating...' : 'Create'}
                   </button>
                 </div>
               </div>

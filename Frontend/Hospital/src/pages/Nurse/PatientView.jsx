@@ -13,6 +13,7 @@ const PatientView = () => {
   const [detailLoading, setDetailLoading] = useState(false)
   const [error, setError] = useState('')
   const [noteText, setNoteText] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const fetchPatients = async () => {
     try {
@@ -54,6 +55,7 @@ const PatientView = () => {
   const handleAddNote = async (e) => {
     e.preventDefault()
     if (!noteText.trim()) return
+    setSubmitting(true)
     try {
       const res = await api.post('/add-patient-note', {
         patientId: selectedPatient._id,
@@ -67,6 +69,8 @@ const PatientView = () => {
       }
     } catch (err) {
       setError('Failed to add note')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -216,8 +220,8 @@ const PatientView = () => {
                         onChange={(e) => setNoteText(e.target.value)}
                         required
                       />
-                      <button type="submit" className="btn btn-primary btn-sm">
-                        Add Note
+                      <button type="submit" className="btn btn-primary btn-sm" disabled={submitting}>
+                        {submitting ? 'Adding...' : 'Add Note'}
                       </button>
                     </form>
                   </div>

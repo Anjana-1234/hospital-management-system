@@ -3,7 +3,9 @@ import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
 import api from '../../services/api'
 
-const roles = ['admin', 'doctor', 'nurse', 'receptionist', 'lab', 'pharmacist', 'accountant']
+// Doctor accounts need a linked Doctor profile (specialization, consultation fee, etc.) —
+// create/manage those on the Doctors page instead, not through this generic user form.
+const roles = ['admin', 'nurse', 'receptionist', 'lab', 'pharmacist', 'accountant']
 
 const Users = () => {
   const [users, setUsers] = useState([])
@@ -12,9 +14,10 @@ const Users = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    name: '', email: '', password: '', role: 'doctor'
+    name: '', email: '', password: '', role: 'nurse'
   })
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   // Fetch all users
   const fetchUsers = async () => {
@@ -39,17 +42,20 @@ const Users = () => {
   // Add user — protected /register endpoint, admin token auto-attached
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/register', formData)
       if (res.data.success) {
         setShowForm(false)
-        setFormData({ name: '', email: '', password: '', role: 'doctor' })
+        setFormData({ name: '', email: '', password: '', role: 'nurse' })
         fetchUsers()
       } else {
         setError(res.data.message)
       }
     } catch (err) {
       setError('Failed to add user')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -130,8 +136,8 @@ const Users = () => {
                     </select>
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save User
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : 'Save User'}
                     </button>
                   </div>
                 </div>
@@ -171,15 +177,24 @@ const Users = () => {
                         <td>{user.name}</td>
                         <td>{user.email}</td>
                         <td>
-                          <select
-                            className="form-select form-select-sm"
-                            value={user.role}
-                            onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                          >
-                            {roles.map(r => (
-                              <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>
-                            ))}
-                          </select>
+                          {user.role === 'doctor' ? (
+                            <span
+                              className="badge bg-primary text-uppercase"
+                              title="Manage doctor accounts from the Doctors page"
+                            >
+                              Doctor
+                            </span>
+                          ) : (
+                            <select
+                              className="form-select form-select-sm"
+                              value={user.role}
+                              onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                            >
+                              {roles.map(r => (
+                                <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>
+                              ))}
+                            </select>
+                          )}
                         </td>
                         <td>
                           <span className={`badge ${user.isActive === false ? 'bg-danger' : 'bg-success'}`}>

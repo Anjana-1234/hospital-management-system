@@ -17,6 +17,7 @@ const Bills = () => {
     items: [{ description: "", amount: "" }],
   });
   const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // Fetch all data
   const fetchAll = async () => {
@@ -68,6 +69,7 @@ const Bills = () => {
   // Add bill
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const res = await api.post("/add-bill", formData);
       if (res.data.success) {
@@ -83,6 +85,8 @@ const Bills = () => {
       }
     } catch (err) {
       setError("Failed to add bill");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -219,8 +223,8 @@ const Bills = () => {
                   </div>
 
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save Bill
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? "Saving..." : "Save Bill"}
                     </button>
                   </div>
                 </div>

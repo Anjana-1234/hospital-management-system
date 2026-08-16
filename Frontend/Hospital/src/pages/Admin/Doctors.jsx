@@ -15,6 +15,7 @@ const Doctors = () => {
     consultationFee: '', availableDays: [],
   })
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -49,6 +50,7 @@ const Doctors = () => {
   // Add doctor
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/add-doctor', formData)
       if (res.data.success) {
@@ -59,9 +61,13 @@ const Doctors = () => {
           consultationFee: '', availableDays: [],
         })
         fetchDoctors()
+      } else {
+        setError(res.data.message)
       }
     } catch (err) {
       setError('Failed to add doctor')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -146,8 +152,8 @@ const Doctors = () => {
                   </div>
 
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save Doctor
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : 'Save Doctor'}
                     </button>
                   </div>
                 </div>

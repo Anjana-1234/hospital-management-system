@@ -19,6 +19,7 @@ const Inventory = () => {
     lowStockAlert: 10,
   });
   const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // Fetch inventory
   const fetchInventory = async () => {
@@ -43,6 +44,7 @@ const Inventory = () => {
   // Add item
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const res = await api.post("/add-inventory", formData);
       if (res.data.success) {
@@ -57,9 +59,13 @@ const Inventory = () => {
           lowStockAlert: 10,
         });
         fetchInventory();
+      } else {
+        setError(res.data.message);
       }
     } catch (err) {
       setError("Failed to add item");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -183,8 +189,8 @@ const Inventory = () => {
                     />
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save Item
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? "Saving..." : "Save Item"}
                     </button>
                   </div>
                 </div>

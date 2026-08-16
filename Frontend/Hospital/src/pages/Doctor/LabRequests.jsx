@@ -14,6 +14,7 @@ const LabRequests = () => {
     patientId: '',
     testType: ''
   })
+  const [submitting, setSubmitting] = useState(false)
 
   const fetchAll = async () => {
     try {
@@ -42,6 +43,7 @@ const LabRequests = () => {
     e.preventDefault()
     setError('')
     setSuccess('')
+    setSubmitting(true)
     try {
       const res = await api.post('/request-lab-test', formData)
       if (res.data.success) {
@@ -53,6 +55,8 @@ const LabRequests = () => {
       }
     } catch (err) {
       setError('Failed to request lab test')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -110,8 +114,8 @@ const LabRequests = () => {
                 </div>
 
                 <div className="col-md-2 d-flex align-items-end">
-                  <button type="submit" className="btn btn-primary w-100">
-                    Request
+                  <button type="submit" className="btn btn-primary w-100" disabled={submitting}>
+                    {submitting ? 'Requesting...' : 'Request'}
                   </button>
                 </div>
               </div>

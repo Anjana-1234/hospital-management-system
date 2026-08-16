@@ -12,6 +12,7 @@ const PatientHistory = () => {
   const [historyLoading, setHistoryLoading] = useState(false)
   const [error, setError] = useState('')
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const [formData, setFormData] = useState({
     diagnosis: '',
@@ -58,6 +59,7 @@ const PatientHistory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/add-medical-record', {
         patientId: selectedPatient._id,
@@ -72,6 +74,8 @@ const PatientHistory = () => {
       }
     } catch (err) {
       setError('Failed to add medical record')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -189,8 +193,8 @@ const PatientHistory = () => {
                           />
                         </div>
                         <div className="col-12">
-                          <button type="submit" className="btn btn-success">
-                            Save Record
+                          <button type="submit" className="btn btn-success" disabled={submitting}>
+                            {submitting ? 'Saving...' : 'Save Record'}
                           </button>
                         </div>
                       </div>

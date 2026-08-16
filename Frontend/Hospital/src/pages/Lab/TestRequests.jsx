@@ -10,6 +10,7 @@ const TestRequests = () => {
   const [filter, setFilter] = useState('all')
   const [resultFormId, setResultFormId] = useState(null)
   const [resultText, setResultText] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const fetchTests = async () => {
     setLoading(true)
@@ -30,8 +31,12 @@ const TestRequests = () => {
 
   const handleMarkCollected = async (id) => {
     try {
-      await api.put(`/update-lab-test/${id}`, { status: 'collected' })
-      fetchTests()
+      const res = await api.put(`/update-lab-test/${id}`, { status: 'collected' })
+      if (res.data.success) {
+        fetchTests()
+      } else {
+        setError(res.data.message)
+      }
     } catch (err) {
       setError('Failed to update status')
     }
@@ -44,13 +49,20 @@ const TestRequests = () => {
 
   const handleSubmitResult = async (e, id) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
-      await api.put(`/update-lab-test/${id}`, { status: 'completed', result: resultText })
-      setResultFormId(null)
-      setResultText('')
-      fetchTests()
+      const res = await api.put(`/update-lab-test/${id}`, { status: 'completed', result: resultText })
+      if (res.data.success) {
+        setResultFormId(null)
+        setResultText('')
+        fetchTests()
+      } else {
+        setError(res.data.message)
+      }
     } catch (err) {
       setError('Failed to submit result')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -160,12 +172,13 @@ const TestRequests = () => {
                                 onChange={(e) => setResultText(e.target.value)}
                                 required
                               />
-                              <button type="submit" className="btn btn-success btn-sm text-nowrap">
-                                Save
+                              <button type="submit" className="btn btn-success btn-sm text-nowrap" disabled={submitting}>
+                                {submitting ? 'Saving...' : 'Save'}
                               </button>
                               <button
                                 type="button"
                                 className="btn btn-outline-secondary btn-sm"
+                                disabled={submitting}
                                 onClick={() => setResultFormId(null)}
                               >
                                 Cancel

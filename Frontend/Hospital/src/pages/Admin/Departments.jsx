@@ -12,6 +12,7 @@ const Departments = () => {
   const [formData, setFormData] = useState({ name: '', description: '' })
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
   // Fetch all departments
   const fetchDepartments = async () => {
@@ -42,6 +43,7 @@ const Departments = () => {
   // Add or update
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = editingId
         ? await api.put(`/update-department/${editingId}`, formData)
@@ -55,6 +57,8 @@ const Departments = () => {
       }
     } catch (err) {
       setError('Failed to save department')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -110,8 +114,8 @@ const Departments = () => {
                       placeholder="Description" value={formData.description} onChange={handleChange} />
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      {editingId ? 'Update Department' : 'Save Department'}
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : (editingId ? 'Update Department' : 'Save Department')}
                     </button>
                   </div>
                 </div>

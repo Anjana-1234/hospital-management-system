@@ -15,6 +15,7 @@ const Patients = () => {
     bloodGroup: 'A+', phone: '', address: ''
   })
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   // Fetch all patients
   const fetchPatients = async () => {
@@ -39,6 +40,7 @@ const Patients = () => {
   // Add patient
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/add-patient', formData)
       if (res.data.success) {
@@ -49,9 +51,13 @@ const Patients = () => {
           bloodGroup: 'A+', phone: '', address: ''
         })
         fetchPatients()
+      } else {
+        setError(res.data.message)
       }
     } catch (err) {
       setError('Failed to add patient')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -127,8 +133,8 @@ const Patients = () => {
                       placeholder="Address" onChange={handleChange} />
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save Patient
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : 'Save Patient'}
                     </button>
                   </div>
                 </div>

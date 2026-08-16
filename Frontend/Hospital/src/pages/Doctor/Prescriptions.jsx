@@ -13,7 +13,6 @@ const Prescriptions = () => {
   // Form state
   const [formData, setFormData] = useState({
     appointmentId: '',
-    doctorId: '',
     patientId: '',
     medicines: [{ name: '', dosage: '', frequency: '', duration: '' }],
     diagnosis: '',
@@ -21,6 +20,7 @@ const Prescriptions = () => {
     followUpDate: ''
   })
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const fetchAll = async () => {
     try {
@@ -71,13 +71,13 @@ const Prescriptions = () => {
   // Add prescription
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
     try {
       const res = await api.post('/add-prescription', formData)
       if (res.data.success) {
         setShowForm(false)
         setFormData({
           appointmentId: '',
-          doctorId: '',
           patientId: '',
           medicines: [{ name: '', dosage: '', frequency: '', duration: '' }],
           diagnosis: '',
@@ -90,6 +90,8 @@ const Prescriptions = () => {
       }
     } catch (err) {
       setError('Failed to add prescription')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -227,8 +229,8 @@ const Prescriptions = () => {
                   </div>
 
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Save Prescription
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? 'Saving...' : 'Save Prescription'}
                     </button>
                   </div>
                 </div>

@@ -21,6 +21,7 @@ const AppointmentBooking = () => {
 
   const [formData, setFormData] = useState(emptyForm);
   const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // Reschedule state — appointment id being rescheduled + its draft values
   const [rescheduleId, setRescheduleId] = useState(null);
@@ -60,6 +61,7 @@ const AppointmentBooking = () => {
       setError("Please select a patient");
       return;
     }
+    setSubmitting(true);
     try {
       const res = await api.post("/book-appointment", formData);
       if (res.data.success) {
@@ -72,14 +74,20 @@ const AppointmentBooking = () => {
       }
     } catch (err) {
       setError("Failed to book appointment");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleCancel = async (id) => {
     if (!window.confirm("Cancel this appointment?")) return;
     try {
-      await api.put(`/update-appointment/${id}`, { status: "cancelled" });
-      fetchAll();
+      const res = await api.put(`/update-appointment/${id}`, { status: "cancelled" });
+      if (res.data.success) {
+        fetchAll();
+      } else {
+        setError(res.data.message);
+      }
     } catch (err) {
       setError("Failed to cancel appointment");
     }
@@ -217,8 +225,8 @@ const AppointmentBooking = () => {
                   </div>
 
                   <div className="col-12">
-                    <button type="submit" className="btn btn-success">
-                      Book Appointment
+                    <button type="submit" className="btn btn-success" disabled={submitting}>
+                      {submitting ? "Booking..." : "Book Appointment"}
                     </button>
                   </div>
                 </div>
