@@ -108,12 +108,21 @@ import {
   getStaffReportController
 } from "../Controller/reportsController.js"
 
+import {
+  getAdminExistsController,
+  setupFirstAdminController
+} from "../Controller/setupController.js"
+
 
 import { authMiddleware, roleMiddleware } from "../Middleware/auth.js";
 
 // Auth routes
 router.post("/register", authMiddleware, roleMiddleware(["admin"]), UserRegistrationController);
 router.post("/login", UserLoginController);
+
+// One-time first-admin setup — no auth middleware, safety is enforced inside the controllers
+router.get("/admin-exists", getAdminExistsController);
+router.post("/setup-first-admin", setupFirstAdminController);
 
 // Doctor routes
 router.post("/add-doctor", authMiddleware, roleMiddleware(["admin"]), addDoctorController);

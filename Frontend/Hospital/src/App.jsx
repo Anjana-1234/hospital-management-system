@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './utils/ProtectedRoute'
 // Lazy imports — Auth
 const Login = lazy(() => import('./pages/Auth/Login.jsx'))
+const SetupAdmin = lazy(() => import('./pages/Auth/SetupAdmin.jsx'))
 
 // Lazy imports — Admin
 const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard.jsx'))
@@ -69,6 +70,7 @@ function App() {
 
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/setup-admin" element={<SetupAdmin />} />
 
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />

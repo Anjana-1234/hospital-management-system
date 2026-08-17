@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../services/api";
 
@@ -8,9 +8,28 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [adminExists, setAdminExists] = useState(true);
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const setupMessage = location.state?.message || "";
+
+  useEffect(() => {
+    const checkAdminExists = async () => {
+      try {
+        const res = await api.get("/admin-exists");
+        console.log("[admin-exists] response:", res.data); // TEMP debug — remove after diagnosing
+        setAdminExists(res.data.data?.exists !== false);
+      } catch (err) {
+        console.log("[admin-exists] request failed:", err); // TEMP debug — remove after diagnosing
+        // If the check fails, don't surface the setup link — safest default
+        setAdminExists(true);
+      }
+    };
+
+    checkAdminExists();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +75,9 @@ const Login = () => {
           Hospital Management System
         </p>
 
+        {/* Setup success message */}
+        {setupMessage && <div className="alert alert-success py-2">{setupMessage}</div>}
+
         {/* Error */}
         {error && <div className="alert alert-danger py-2">{error}</div>}
 
@@ -100,6 +122,15 @@ const Login = () => {
             )}
           </button>
         </form>
+
+        {/* One-time first-admin setup — only shown before any admin account exists */}
+        {!adminExists && (
+          <p className="text-center mt-3 mb-0">
+            <Link to="/setup-admin" className="small text-muted">
+              First time setup — Create the admin account
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );
