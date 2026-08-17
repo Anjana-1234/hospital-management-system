@@ -11,6 +11,11 @@ DBConn();
 
 app.use("/api",router)
 const Port=process.env.PORT || 5000;
-app.listen(Port,()=>{
-    console.log(`Server is running on port ${Port}`);
-})
+
+if (process.env.NODE_ENV !== "production") {
+    app.listen(Port,()=>{
+        console.log(`Server is running on port ${Port}`);
+    })
+}
+
+export default app;
