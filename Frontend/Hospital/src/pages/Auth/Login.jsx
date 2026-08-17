@@ -1,63 +1,63 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
-import api from '../../services/api'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import api from "../../services/api";
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
-      const res = await api.post('/login', { email, password })
+      const res = await api.post("/login", { email, password });
 
       if (res.data.success) {
-        login(res.data.token)
+        login(res.data.token);
 
         // Redirect based on role
-        const role = res.data.data.role
-        if (role === 'admin') navigate('/admin/dashboard')
-        else if (role === 'doctor') navigate('/doctor/dashboard')
-        else if (role === 'nurse') navigate('/nurse/dashboard')
-        else if (role === 'lab') navigate('/lab/dashboard')
-        else if (role === 'receptionist') navigate('/receptionist/dashboard')
-        else if (role === 'pharmacist') navigate('/pharmacist/dashboard')
-        else if (role === 'accountant') navigate('/accountant/dashboard')
-
+        const role = res.data.data.role;
+        if (role === "admin") navigate("/admin/dashboard");
+        else if (role === "doctor") navigate("/doctor/dashboard");
+        else if (role === "nurse") navigate("/nurse/dashboard");
+        else if (role === "lab") navigate("/lab/dashboard");
+        else if (role === "receptionist") navigate("/receptionist/dashboard");
+        else if (role === "pharmacist") navigate("/pharmacist/dashboard");
+        else if (role === "accountant") navigate("/accountant/dashboard");
       } else {
-        setError(res.data.message)
+        setError(res.data.message);
       }
-
     } catch (err) {
-      setError('Something went wrong!')
+      setError(err.response?.data?.message || "Something went wrong");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="auth-card shadow-sm p-4" style={{ width: '400px' }}>
-
+      <div className="auth-card shadow-sm p-4" style={{ width: "400px" }}>
         {/* Header */}
-        <h3 className="text-center mb-1" style={{ color: 'var(--color-primary-dark)', fontWeight: 600 }}>
+        <h3
+          className="text-center mb-1"
+          style={{ color: "var(--color-primary-dark)", fontWeight: 600 }}
+        >
           HMS
         </h3>
-        <p className="text-center text-muted mb-4">Hospital Management System</p>
+        <p className="text-center text-muted mb-4">
+          Hospital Management System
+        </p>
 
         {/* Error */}
-        {error && (
-          <div className="alert alert-danger py-2">{error}</div>
-        )}
+        {error && <div className="alert alert-danger py-2">{error}</div>}
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
@@ -95,13 +95,14 @@ const Login = () => {
                 <span className="spinner-border spinner-border-sm me-2" />
                 Logging in...
               </>
-            ) : 'Login'}
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
